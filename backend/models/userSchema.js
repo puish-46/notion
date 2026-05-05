@@ -1,20 +1,31 @@
 import mongoose from "mongoose";
 
 export const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: String,
+  firstName: { type: String, required: true, trim: true },
+  lastName: { type: String, trim: true },
 
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   password: { type: String, required: true },
 
-  avatarUrl: String,
+  avatarUrl: { type: String, default: "" },
 
   workspaces: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Workspace"
   }],
 
-  lastActiveAt: Date,
+  starredBoards: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Board"
+  }],
 
-  createdAt: { type: Date, default: Date.now }
+  starredPages: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Page"
+  }],
+
+  lastActiveAt: { type: Date, default: Date.now }
+}, {
+  timestamps: true,
+  versionKey: false
 });

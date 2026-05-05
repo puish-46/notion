@@ -1,0 +1,34 @@
+### Send workspace invite
+POST http://localhost:6767/invite
+Content-Type: application/json
+
+{
+    "workspace": "WORKSPACE_ID_HERE",
+    "email": "friend@gmail.com",
+    "role": "MEMBER"
+}
+
+###
+
+### Get all pending invites for workspace
+GET http://localhost:6767/invite?workspace=WORKSPACE_ID_HERE
+
+###
+
+### Accept invite via token
+POST http://localhost:6767/invite/accept/INVITE_TOKEN_HERE
+
+###
+
+### Decline invite via token
+POST http://localhost:6767/invite/decline/INVITE_TOKEN_HERE
+
+###
+
+### Resend invite
+POST http://localhost:6767/invite/INVITE_ID_HERE/resend
+
+###
+
+### Cancel/delete invite
+DELETE http://localhost:6767/invite/INVITE_ID_HERE

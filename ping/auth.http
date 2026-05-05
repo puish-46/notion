@@ -1,0 +1,32 @@
+### Register a new user
+POST http://localhost:6767/auth/register
+Content-Type: application/json
+
+{
+    "firstName": "Miau",
+    "lastName": "Meow",
+    "email": "meow@gmail.com",
+    "password": "meow",
+    "avatarUrl": "https://gandithatha.com"
+}
+
+###
+
+### Login
+POST http://localhost:6767/auth/login
+Content-Type: application/json
+
+{
+    "email": "meow@gmail.com",
+    "password": "meow"
+}
+
+###
+
+### Logout
+GET http://localhost:6767/auth/logout
+
+###
+
+### Check auth status
+GET http://localhost:6767/auth/check-auth

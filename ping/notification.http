@@ -1,0 +1,27 @@
+### Get my notifications
+GET http://localhost:6767/notification
+
+###
+
+### Get unread count
+GET http://localhost:6767/notification/unread-count
+
+###
+
+### Mark notification as read
+PUT http://localhost:6767/notification/NOTIFICATION_ID_HERE/read
+
+###
+
+### Mark all notifications as read
+PUT http://localhost:6767/notification/read-all
+
+###
+
+### Delete notification
+DELETE http://localhost:6767/notification/NOTIFICATION_ID_HERE
+
+###
+
+### Delete all read notifications
+DELETE http://localhost:6767/notification/clear-read

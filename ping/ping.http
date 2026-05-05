@@ -1,0 +1,404 @@
+### Register
+POST http://localhost:6767/auth/register
+Content-Type: application/json
+
+{"firstName":"Miau","lastName":"Meow","email":"meow@gmail.com","password":"meow","avatarUrl":"https://gandithatha.com"}
+
+### Login
+POST http://localhost:6767/auth/login
+Content-Type: application/json
+
+{"email":"meow@gmail.com","password":"meow"}
+
+### Logout
+GET http://localhost:6767/auth/logout
+
+### Check auth
+GET http://localhost:6767/auth/check-auth
+
+### Get my profile
+GET http://localhost:6767/user/me
+
+### Update profile
+PUT http://localhost:6767/user/me
+Content-Type: application/json
+
+{"firstName":"Updated","lastName":"Name","avatarUrl":"https://newavatar.com/img.png"}
+
+### Change password
+PUT http://localhost:6767/user/change-password
+Content-Type: application/json
+
+{"currentPassword":"meow","newPassword":"woof"}
+
+### Star board
+POST http://localhost:6767/user/star/board/BOARD_ID_HERE
+
+### Unstar board
+DELETE http://localhost:6767/user/star/board/BOARD_ID_HERE
+
+### Star page
+POST http://localhost:6767/user/star/page/PAGE_ID_HERE
+
+### Unstar page
+DELETE http://localhost:6767/user/star/page/PAGE_ID_HERE
+
+### Get starred items
+GET http://localhost:6767/user/starred
+
+### Delete account
+DELETE http://localhost:6767/user/me
+
+### Create workspace
+POST http://localhost:6767/workspace
+Content-Type: application/json
+
+{"name":"My First Workspace","description":"Team collaboration workspace","icon":":D"}
+
+### Get all workspaces
+GET http://localhost:6767/workspace
+
+### Get workspace by ID
+GET http://localhost:6767/workspace/WORKSPACE_ID_HERE
+
+### Update workspace
+PUT http://localhost:6767/workspace/WORKSPACE_ID_HERE
+Content-Type: application/json
+
+{"name":"Renamed Workspace","description":"Updated description","icon":":P"}
+
+### Delete workspace
+DELETE http://localhost:6767/workspace/WORKSPACE_ID_HERE
+
+### Add workspace member
+POST http://localhost:6767/workspace/WORKSPACE_ID_HERE/members
+Content-Type: application/json
+
+{"userId":"USER_ID_HERE","role":"MEMBER"}
+
+### Update member role
+PUT http://localhost:6767/workspace/WORKSPACE_ID_HERE/members/USER_ID_HERE
+Content-Type: application/json
+
+{"role":"ADMIN"}
+
+### Remove workspace member
+DELETE http://localhost:6767/workspace/WORKSPACE_ID_HERE/members/USER_ID_HERE
+
+### Get workspace members
+GET http://localhost:6767/workspace/WORKSPACE_ID_HERE/members
+
+### Get workspace activity
+GET http://localhost:6767/workspace/WORKSPACE_ID_HERE/activity
+
+### Create board
+POST http://localhost:6767/board
+Content-Type: application/json
+
+{"title":"Sprint Board","description":"Current sprint","workspace":"WORKSPACE_ID_HERE","background":"#1e1e2e","visibility":"WORKSPACE"}
+
+### Get boards in workspace
+GET http://localhost:6767/board?workspace=WORKSPACE_ID_HERE
+
+### Get board by ID
+GET http://localhost:6767/board/BOARD_ID_HERE
+
+### Update board
+PUT http://localhost:6767/board/BOARD_ID_HERE
+Content-Type: application/json
+
+{"title":"Renamed Board","description":"Updated","background":"#2d2d44","visibility":"PRIVATE"}
+
+### Archive board
+PUT http://localhost:6767/board/BOARD_ID_HERE/archive
+
+### Unarchive board
+PUT http://localhost:6767/board/BOARD_ID_HERE/unarchive
+
+### Delete board
+DELETE http://localhost:6767/board/BOARD_ID_HERE
+
+### Add board member
+POST http://localhost:6767/board/BOARD_ID_HERE/members
+Content-Type: application/json
+
+{"userId":"USER_ID_HERE","role":"EDIT"}
+
+### Update board member role
+PUT http://localhost:6767/board/BOARD_ID_HERE/members/USER_ID_HERE
+Content-Type: application/json
+
+{"role":"COMMENT"}
+
+### Remove board member
+DELETE http://localhost:6767/board/BOARD_ID_HERE/members/USER_ID_HERE
+
+### Save board as template
+POST http://localhost:6767/board/BOARD_ID_HERE/save-template
+
+### Create board from template
+POST http://localhost:6767/board/from-template
+Content-Type: application/json
+
+{"templateId":"TEMPLATE_BOARD_ID_HERE","title":"New Board From Template","workspace":"WORKSPACE_ID_HERE"}
+
+### Get board templates
+GET http://localhost:6767/board/templates?workspace=WORKSPACE_ID_HERE
+
+### Create list
+POST http://localhost:6767/list
+Content-Type: application/json
+
+{"title":"To Do","board":"BOARD_ID_HERE","position":1}
+
+### Get lists in board
+GET http://localhost:6767/list?board=BOARD_ID_HERE
+
+### Get list by ID
+GET http://localhost:6767/list/LIST_ID_HERE
+
+### Update list
+PUT http://localhost:6767/list/LIST_ID_HERE
+Content-Type: application/json
+
+{"title":"In Progress"}
+
+### Reorder list
+PUT http://localhost:6767/list/LIST_ID_HERE/reorder
+Content-Type: application/json
+
+{"position":3}
+
+### Archive list
+PUT http://localhost:6767/list/LIST_ID_HERE/archive
+
+### Unarchive list
+PUT http://localhost:6767/list/LIST_ID_HERE/unarchive
+
+### Delete list
+DELETE http://localhost:6767/list/LIST_ID_HERE
+
+### Create card
+POST http://localhost:6767/card
+Content-Type: application/json
+
+{"title":"Setup project","description":"Init repo and install deps","list":"LIST_ID_HERE","board":"BOARD_ID_HERE","position":1,"priority":"HIGH"}
+
+### Get cards in list
+GET http://localhost:6767/card?list=LIST_ID_HERE
+
+### Get card by ID
+GET http://localhost:6767/card/CARD_ID_HERE
+
+### Update card
+PUT http://localhost:6767/card/CARD_ID_HERE
+Content-Type: application/json
+
+{"title":"Updated title","description":"Updated desc","priority":"URGENT","dueDate":"2026-06-01T00:00:00.000Z"}
+
+### Move card to different list
+PUT http://localhost:6767/card/CARD_ID_HERE/move
+Content-Type: application/json
+
+{"targetList":"TARGET_LIST_ID_HERE","position":2}
+
+### Reorder card
+PUT http://localhost:6767/card/CARD_ID_HERE/reorder
+Content-Type: application/json
+
+{"position":3}
+
+### Complete card
+PUT http://localhost:6767/card/CARD_ID_HERE/complete
+
+### Incomplete card
+PUT http://localhost:6767/card/CARD_ID_HERE/incomplete
+
+### Archive card
+PUT http://localhost:6767/card/CARD_ID_HERE/archive
+
+### Unarchive card
+PUT http://localhost:6767/card/CARD_ID_HERE/unarchive
+
+### Delete card
+DELETE http://localhost:6767/card/CARD_ID_HERE
+
+### Assign member to card
+POST http://localhost:6767/card/CARD_ID_HERE/members
+Content-Type: application/json
+
+{"userId":"USER_ID_HERE"}
+
+### Remove member from card
+DELETE http://localhost:6767/card/CARD_ID_HERE/members/USER_ID_HERE
+
+### Add label
+POST http://localhost:6767/card/CARD_ID_HERE/labels
+Content-Type: application/json
+
+{"name":"Bug","color":"#e74c3c"}
+
+### Remove label
+DELETE http://localhost:6767/card/CARD_ID_HERE/labels/LABEL_ID_HERE
+
+### Add checklist item
+POST http://localhost:6767/card/CARD_ID_HERE/checklist
+Content-Type: application/json
+
+{"text":"Write unit tests"}
+
+### Toggle checklist item
+PUT http://localhost:6767/card/CARD_ID_HERE/checklist/ITEM_ID_HERE
+Content-Type: application/json
+
+{"completed":true}
+
+### Delete checklist item
+DELETE http://localhost:6767/card/CARD_ID_HERE/checklist/ITEM_ID_HERE
+
+### Add comment
+POST http://localhost:6767/card/CARD_ID_HERE/comments
+Content-Type: application/json
+
+{"text":"Looks good, moving to review!"}
+
+### Update comment
+PUT http://localhost:6767/card/CARD_ID_HERE/comments/COMMENT_ID_HERE
+Content-Type: application/json
+
+{"text":"Updated comment"}
+
+### Delete comment
+DELETE http://localhost:6767/card/CARD_ID_HERE/comments/COMMENT_ID_HERE
+
+### Create attachment
+POST http://localhost:6767/attachment
+Content-Type: application/json
+
+{"filename":"screenshot.png","url":"https://res.cloudinary.com/dvdf6c1vv/image/upload/v1234/screenshot.png","fileType":"image","card":"CARD_ID_HERE"}
+
+### Get attachments for card
+GET http://localhost:6767/attachment?card=CARD_ID_HERE
+
+### Get attachment by ID
+GET http://localhost:6767/attachment/ATTACHMENT_ID_HERE
+
+### Delete attachment
+DELETE http://localhost:6767/attachment/ATTACHMENT_ID_HERE
+
+### Create page
+POST http://localhost:6767/page
+Content-Type: application/json
+
+{"title":"Project Roadmap","icon":":D","content":"# Roadmap\n## Q1\n- Launch MVP","workspace":"WORKSPACE_ID_HERE"}
+
+### Create sub-page
+POST http://localhost:6767/page
+Content-Type: application/json
+
+{"title":"Q1 Details","content":"Detailed breakdown...","workspace":"WORKSPACE_ID_HERE","parent":"PARENT_PAGE_ID_HERE"}
+
+### Get pages in workspace
+GET http://localhost:6767/page?workspace=WORKSPACE_ID_HERE
+
+### Get page by ID
+GET http://localhost:6767/page/PAGE_ID_HERE
+
+### Update page
+PUT http://localhost:6767/page/PAGE_ID_HERE
+Content-Type: application/json
+
+{"title":"Updated Roadmap","icon":":P","content":"# Updated content here"}
+
+### Update page cover
+PUT http://localhost:6767/page/PAGE_ID_HERE/cover
+Content-Type: application/json
+
+{"coverImage":"https://res.cloudinary.com/dvdf6c1vv/image/upload/v1234/cover.jpg"}
+
+### Move page to parent
+PUT http://localhost:6767/page/PAGE_ID_HERE/move
+Content-Type: application/json
+
+{"parent":"NEW_PARENT_PAGE_ID_HERE"}
+
+### Move page to top-level
+PUT http://localhost:6767/page/PAGE_ID_HERE/move
+Content-Type: application/json
+
+{"parent":null}
+
+### Archive page
+PUT http://localhost:6767/page/PAGE_ID_HERE/archive
+
+### Unarchive page
+PUT http://localhost:6767/page/PAGE_ID_HERE/unarchive
+
+### Toggle page favorite
+PUT http://localhost:6767/page/PAGE_ID_HERE/favorite
+
+### Delete page
+DELETE http://localhost:6767/page/PAGE_ID_HERE
+
+### Send invite
+POST http://localhost:6767/invite
+Content-Type: application/json
+
+{"workspace":"WORKSPACE_ID_HERE","email":"friend@gmail.com","role":"MEMBER"}
+
+### Get pending invites
+GET http://localhost:6767/invite?workspace=WORKSPACE_ID_HERE
+
+### Accept invite
+POST http://localhost:6767/invite/accept/INVITE_TOKEN_HERE
+
+### Decline invite
+POST http://localhost:6767/invite/decline/INVITE_TOKEN_HERE
+
+### Resend invite
+POST http://localhost:6767/invite/INVITE_ID_HERE/resend
+
+### Cancel invite
+DELETE http://localhost:6767/invite/INVITE_ID_HERE
+
+### Get my notifications
+GET http://localhost:6767/notification
+
+### Unread count
+GET http://localhost:6767/notification/unread-count
+
+### Mark as read
+PUT http://localhost:6767/notification/NOTIFICATION_ID_HERE/read
+
+### Mark all as read
+PUT http://localhost:6767/notification/read-all
+
+### Delete notification
+DELETE http://localhost:6767/notification/NOTIFICATION_ID_HERE
+
+### Clear read notifications
+DELETE http://localhost:6767/notification/clear-read
+
+### Workspace activity feed
+GET http://localhost:6767/activity?workspace=WORKSPACE_ID_HERE
+
+### Board activity
+GET http://localhost:6767/activity?workspace=WORKSPACE_ID_HERE&entityType=Board&entityId=BOARD_ID_HERE
+
+### Card activity
+GET http://localhost:6767/activity?workspace=WORKSPACE_ID_HERE&entityType=Card&entityId=CARD_ID_HERE
+
+### My activity
+GET http://localhost:6767/activity/me
+
+### Search all
+GET http://localhost:6767/search?q=roadmap&workspace=WORKSPACE_ID_HERE
+
+### Search cards only
+GET http://localhost:6767/search?q=bug&type=card&workspace=WORKSPACE_ID_HERE
+
+### Search pages only
+GET http://localhost:6767/search?q=meeting&type=page&workspace=WORKSPACE_ID_HERE
+
+### Health check
+GET http://localhost:6767/

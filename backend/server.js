@@ -1,39 +1,48 @@
 import express from 'express';
-import { connect } from 'mongoose'
+import { connect } from 'mongoose';
 import { config } from 'dotenv';
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { commonAPP } from './API/commonAPI.js';
 
-config({ path: "../.env" })
+config({ path: "../.env" });
 const app = express();
-const PORT = 3000;
-app.use(express.json())
-app.use("/auth", commonAPP)
 
-
-//add cookie parser middleware
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  credentials: true
+}));
+app.use(express.json());
 app.use(cookieParser());
+
+// routes
+app.use("/auth", commonAPP);
+
+// health check
 app.get('/', (req, res) => {
   res.send('active!');
 });
-const db_address = process.env.DB_URL
-const port = process.env.PORT
-const NODE_ENV = process.env.NODE_ENV || "Lol"
+
+// db connect + start
+const db_address = process.env.DB_URL;
+const port = process.env.PORT;
 try {
   await connect(db_address);
   console.log(`The DataBase is connected!`);
   if (process.env.NODE_ENV !== "production") {
-    app.listen(port, () => console.log(`server listning at port : ${port} ...`));
+    app.listen(port, () => console.log(`server listening at port : ${port} ...`));
   }
 } catch (err) {
   console.log("con refused :", err);
 }
 
+// 404 handler
 app.use((request, response, next) => {
   console.log("ERROR : INVALID URL");
   return response.status(404).json({ message: "Invalid URL" });
 });
 
+// global error handler
 app.use((err, req, res, next) => {
   console.log("Error name:", err.name);
   console.log("Error code:", err.code);
@@ -60,4 +69,3 @@ app.use((err, req, res, next) => {
   }
   res.status(500).json({ message: "error occurred", error: "Server side error" });
 });
-

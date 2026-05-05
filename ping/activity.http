@@ -1,0 +1,17 @@
+### Get activity feed for workspace
+GET http://localhost:6767/activity?workspace=WORKSPACE_ID_HERE
+
+###
+
+### Get activity for a specific board
+GET http://localhost:6767/activity?workspace=WORKSPACE_ID_HERE&entityType=Board&entityId=BOARD_ID_HERE
+
+###
+
+### Get activity for a specific card
+GET http://localhost:6767/activity?workspace=WORKSPACE_ID_HERE&entityType=Card&entityId=CARD_ID_HERE
+
+###
+
+### Get my activity (what I did)
+GET http://localhost:6767/activity/me

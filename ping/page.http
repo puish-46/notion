@@ -1,0 +1,95 @@
+### Create page in workspace
+POST http://localhost:6767/page
+Content-Type: application/json
+
+{
+    "title": "Project Roadmap",
+    "icon": ":D",
+    "content": "# Roadmap\n\n## Q1 Goals\n- Launch MVP\n- Onboard 10 users",
+    "workspace": "WORKSPACE_ID_HERE"
+}
+
+###
+
+### Create sub-page (nested under parent)
+POST http://localhost:6767/page
+Content-Type: application/json
+
+{
+    "title": "Q1 Details",
+    "content": "Detailed breakdown of Q1 goals...",
+    "workspace": "WORKSPACE_ID_HERE",
+    "parent": "PARENT_PAGE_ID_HERE"
+}
+
+###
+
+### Get all pages in workspace (top-level)
+GET http://localhost:6767/page?workspace=WORKSPACE_ID_HERE
+
+###
+
+### Get page by ID
+GET http://localhost:6767/page/PAGE_ID_HERE
+
+###
+
+### Update page
+PUT http://localhost:6767/page/PAGE_ID_HERE
+Content-Type: application/json
+
+{
+    "title": "Updated Roadmap",
+    "icon": ":P",
+    "content": "# Updated content\n\nNew roadmap details here..."
+}
+
+###
+
+### Update page cover image
+PUT http://localhost:6767/page/PAGE_ID_HERE/cover
+Content-Type: application/json
+
+{
+    "coverImage": "https://res.cloudinary.com/dvdf6c1vv/image/upload/v1234/cover.jpg"
+}
+
+###
+
+### Move page to different parent
+PUT http://localhost:6767/page/PAGE_ID_HERE/move
+Content-Type: application/json
+
+{
+    "parent": "NEW_PARENT_PAGE_ID_HERE"
+}
+
+###
+
+### Move page to top-level (remove parent)
+PUT http://localhost:6767/page/PAGE_ID_HERE/move
+Content-Type: application/json
+
+{
+    "parent": null
+}
+
+###
+
+### Archive page
+PUT http://localhost:6767/page/PAGE_ID_HERE/archive
+
+###
+
+### Unarchive page
+PUT http://localhost:6767/page/PAGE_ID_HERE/unarchive
+
+###
+
+### Toggle favorite
+PUT http://localhost:6767/page/PAGE_ID_HERE/favorite
+
+###
+
+### Delete page
+DELETE http://localhost:6767/page/PAGE_ID_HERE

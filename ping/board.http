@@ -1,0 +1,97 @@
+### Create board in workspace
+POST http://localhost:6767/board
+Content-Type: application/json
+
+{
+    "title": "Sprint Board",
+    "description": "Current sprint tasks",
+    "workspace": "WORKSPACE_ID_HERE",
+    "background": "#1e1e2e",
+    "visibility": "WORKSPACE"
+}
+
+###
+
+### Get all boards in workspace
+GET http://localhost:6767/board?workspace=WORKSPACE_ID_HERE
+
+###
+
+### Get board by ID
+GET http://localhost:6767/board/BOARD_ID_HERE
+
+###
+
+### Update board
+PUT http://localhost:6767/board/BOARD_ID_HERE
+Content-Type: application/json
+
+{
+    "title": "Renamed Board",
+    "description": "Updated board description",
+    "background": "#2d2d44",
+    "visibility": "PRIVATE"
+}
+
+###
+
+### Archive board
+PUT http://localhost:6767/board/BOARD_ID_HERE/archive
+
+###
+
+### Unarchive board
+PUT http://localhost:6767/board/BOARD_ID_HERE/unarchive
+
+###
+
+### Delete board
+DELETE http://localhost:6767/board/BOARD_ID_HERE
+
+###
+
+### Add member to board
+POST http://localhost:6767/board/BOARD_ID_HERE/members
+Content-Type: application/json
+
+{
+    "userId": "USER_ID_HERE",
+    "role": "EDIT"
+}
+
+###
+
+### Update board member role
+PUT http://localhost:6767/board/BOARD_ID_HERE/members/USER_ID_HERE
+Content-Type: application/json
+
+{
+    "role": "COMMENT"
+}
+
+###
+
+### Remove member from board
+DELETE http://localhost:6767/board/BOARD_ID_HERE/members/USER_ID_HERE
+
+###
+
+### Save board as template
+POST http://localhost:6767/board/BOARD_ID_HERE/save-template
+
+###
+
+### Create board from template
+POST http://localhost:6767/board/from-template
+Content-Type: application/json
+
+{
+    "templateId": "TEMPLATE_BOARD_ID_HERE",
+    "title": "New Board From Template",
+    "workspace": "WORKSPACE_ID_HERE"
+}
+
+###
+
+### Get all board templates
+GET http://localhost:6767/board/templates?workspace=WORKSPACE_ID_HERE

@@ -1,0 +1,55 @@
+### Get my profile
+GET http://localhost:6767/user/me
+
+###
+
+### Update my profile
+PUT http://localhost:6767/user/me
+Content-Type: application/json
+
+{
+    "firstName": "Updated",
+    "lastName": "Name",
+    "avatarUrl": "https://newavatar.com/img.png"
+}
+
+###
+
+### Change password
+PUT http://localhost:6767/user/change-password
+Content-Type: application/json
+
+{
+    "currentPassword": "meow",
+    "newPassword": "woof"
+}
+
+###
+
+### Star a board
+POST http://localhost:6767/user/star/board/BOARD_ID_HERE
+
+###
+
+### Unstar a board
+DELETE http://localhost:6767/user/star/board/BOARD_ID_HERE
+
+###
+
+### Star a page
+POST http://localhost:6767/user/star/page/PAGE_ID_HERE
+
+###
+
+### Unstar a page
+DELETE http://localhost:6767/user/star/page/PAGE_ID_HERE
+
+###
+
+### Get all starred items
+GET http://localhost:6767/user/starred
+
+###
+
+### Delete my account
+DELETE http://localhost:6767/user/me

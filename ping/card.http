@@ -1,0 +1,163 @@
+### Create card in list
+POST http://localhost:6767/card
+Content-Type: application/json
+
+{
+    "title": "Setup project",
+    "description": "Initialize the repository and install dependencies",
+    "list": "LIST_ID_HERE",
+    "board": "BOARD_ID_HERE",
+    "position": 1,
+    "priority": "HIGH"
+}
+
+###
+
+### Get all cards in list
+GET http://localhost:6767/card?list=LIST_ID_HERE
+
+###
+
+### Get card by ID
+GET http://localhost:6767/card/CARD_ID_HERE
+
+###
+
+### Update card
+PUT http://localhost:6767/card/CARD_ID_HERE
+Content-Type: application/json
+
+{
+    "title": "Updated card title",
+    "description": "Updated description",
+    "priority": "URGENT",
+    "dueDate": "2026-06-01T00:00:00.000Z",
+    "coverImage": "https://example.com/cover.png"
+}
+
+###
+
+### Move card to different list
+PUT http://localhost:6767/card/CARD_ID_HERE/move
+Content-Type: application/json
+
+{
+    "targetList": "TARGET_LIST_ID_HERE",
+    "position": 2
+}
+
+###
+
+### Reorder card within same list
+PUT http://localhost:6767/card/CARD_ID_HERE/reorder
+Content-Type: application/json
+
+{
+    "position": 3
+}
+
+###
+
+### Mark card as completed
+PUT http://localhost:6767/card/CARD_ID_HERE/complete
+
+###
+
+### Mark card as incomplete
+PUT http://localhost:6767/card/CARD_ID_HERE/incomplete
+
+###
+
+### Archive card
+PUT http://localhost:6767/card/CARD_ID_HERE/archive
+
+###
+
+### Unarchive card
+PUT http://localhost:6767/card/CARD_ID_HERE/unarchive
+
+###
+
+### Delete card
+DELETE http://localhost:6767/card/CARD_ID_HERE
+
+###
+
+### Assign member to card
+POST http://localhost:6767/card/CARD_ID_HERE/members
+Content-Type: application/json
+
+{
+    "userId": "USER_ID_HERE"
+}
+
+###
+
+### Remove member from card
+DELETE http://localhost:6767/card/CARD_ID_HERE/members/USER_ID_HERE
+
+###
+
+### Add label to card
+POST http://localhost:6767/card/CARD_ID_HERE/labels
+Content-Type: application/json
+
+{
+    "name": "Bug",
+    "color": "#e74c3c"
+}
+
+###
+
+### Remove label from card
+DELETE http://localhost:6767/card/CARD_ID_HERE/labels/LABEL_ID_HERE
+
+###
+
+### Add checklist item
+POST http://localhost:6767/card/CARD_ID_HERE/checklist
+Content-Type: application/json
+
+{
+    "text": "Write unit tests"
+}
+
+###
+
+### Toggle checklist item
+PUT http://localhost:6767/card/CARD_ID_HERE/checklist/ITEM_ID_HERE
+Content-Type: application/json
+
+{
+    "completed": true
+}
+
+###
+
+### Delete checklist item
+DELETE http://localhost:6767/card/CARD_ID_HERE/checklist/ITEM_ID_HERE
+
+###
+
+### Add comment to card
+POST http://localhost:6767/card/CARD_ID_HERE/comments
+Content-Type: application/json
+
+{
+    "text": "This looks good, moving to review!"
+}
+
+###
+
+### Update comment
+PUT http://localhost:6767/card/CARD_ID_HERE/comments/COMMENT_ID_HERE
+Content-Type: application/json
+
+{
+    "text": "Updated comment text"
+}
+
+###
+
+### Delete comment
+DELETE http://localhost:6767/card/CARD_ID_HERE/comments/COMMENT_ID_HERE

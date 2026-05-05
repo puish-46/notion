@@ -1,0 +1,54 @@
+### Create list in board
+POST http://localhost:6767/list
+Content-Type: application/json
+
+{
+    "title": "To Do",
+    "board": "BOARD_ID_HERE",
+    "position": 1
+}
+
+###
+
+### Get all lists in board
+GET http://localhost:6767/list?board=BOARD_ID_HERE
+
+###
+
+### Get list by ID
+GET http://localhost:6767/list/LIST_ID_HERE
+
+###
+
+### Update list title
+PUT http://localhost:6767/list/LIST_ID_HERE
+Content-Type: application/json
+
+{
+    "title": "In Progress"
+}
+
+###
+
+### Reorder list
+PUT http://localhost:6767/list/LIST_ID_HERE/reorder
+Content-Type: application/json
+
+{
+    "position": 3
+}
+
+###
+
+### Archive list
+PUT http://localhost:6767/list/LIST_ID_HERE/archive
+
+###
+
+### Unarchive list
+PUT http://localhost:6767/list/LIST_ID_HERE/unarchive
+
+###
+
+### Delete list
+DELETE http://localhost:6767/list/LIST_ID_HERE

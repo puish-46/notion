@@ -1,0 +1,17 @@
+### Search across cards, pages, boards
+GET http://localhost:6767/search?q=roadmap&workspace=WORKSPACE_ID_HERE
+
+###
+
+### Search only cards
+GET http://localhost:6767/search?q=bug&type=card&workspace=WORKSPACE_ID_HERE
+
+###
+
+### Search only pages
+GET http://localhost:6767/search?q=meeting&type=page&workspace=WORKSPACE_ID_HERE
+
+###
+
+### Server health check
+GET http://localhost:6767/

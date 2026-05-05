@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
+
 export const boardSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String, required: true, trim: true },
+
+  description: { type: String, default: "" },
 
   workspace: {
     type: mongoose.Schema.Types.ObjectId,
@@ -10,11 +13,11 @@ export const boardSchema = new mongoose.Schema({
 
   members: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    // role: {
-    //   type: String,
-    //   enum: ["EDIT", "COMMENT", "VIEW"],
-    //   default: "VIEW"
-    // }
+    role: {
+      type: String,
+      enum: ["EDIT", "COMMENT", "VIEW"],
+      default: "VIEW"
+    }
   }],
 
   lists: [{
@@ -22,11 +25,20 @@ export const boardSchema = new mongoose.Schema({
     ref: "List"
   }],
 
-  background: String,
+  background: { type: String, default: "#1e1e2e" },
+
+  visibility: {
+    type: String,
+    enum: ["PRIVATE", "WORKSPACE", "PUBLIC"],
+    default: "WORKSPACE"
+  },
+
+  isTemplate: { type: Boolean, default: false },
 
   archived: { type: Boolean, default: false },
 
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-
-  createdAt: { type: Date, default: Date.now }
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
+}, {
+  timestamps: true,
+  versionKey: false
 });

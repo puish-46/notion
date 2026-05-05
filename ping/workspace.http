@@ -1,0 +1,72 @@
+### Create workspace
+POST http://localhost:6767/workspace
+Content-Type: application/json
+
+{
+    "name": "My First Workspace",
+    "description": "Team collaboration workspace",
+    "icon": ":D"
+}
+
+###
+
+### Get all my workspaces
+GET http://localhost:6767/workspace
+
+###
+
+### Get workspace by ID
+GET http://localhost:6767/workspace/WORKSPACE_ID_HERE
+
+###
+
+### Update workspace
+PUT http://localhost:6767/workspace/WORKSPACE_ID_HERE
+Content-Type: application/json
+
+{
+    "name": "Renamed Workspace",
+    "description": "Updated description",
+    "icon": ":P"
+}
+
+###
+
+### Delete workspace
+DELETE http://localhost:6767/workspace/WORKSPACE_ID_HERE
+
+###
+
+### Add member to workspace
+POST http://localhost:6767/workspace/WORKSPACE_ID_HERE/members
+Content-Type: application/json
+
+{
+    "userId": "USER_ID_HERE",
+    "role": "MEMBER"
+}
+
+###
+
+### Update member role
+PUT http://localhost:6767/workspace/WORKSPACE_ID_HERE/members/USER_ID_HERE
+Content-Type: application/json
+
+{
+    "role": "ADMIN"
+}
+
+###
+
+### Remove member from workspace
+DELETE http://localhost:6767/workspace/WORKSPACE_ID_HERE/members/USER_ID_HERE
+
+###
+
+### Get workspace members
+GET http://localhost:6767/workspace/WORKSPACE_ID_HERE/members
+
+###
+
+### Get workspace activity feed
+GET http://localhost:6767/workspace/WORKSPACE_ID_HERE/activity

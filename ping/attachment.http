@@ -1,0 +1,25 @@
+### Upload attachment to card
+POST http://localhost:6767/attachment
+Content-Type: application/json
+
+{
+    "filename": "screenshot.png",
+    "url": "https://res.cloudinary.com/dvdf6c1vv/image/upload/v1234/screenshot.png",
+    "fileType": "image",
+    "card": "CARD_ID_HERE"
+}
+
+###
+
+### Get all attachments for a card
+GET http://localhost:6767/attachment?card=CARD_ID_HERE
+
+###
+
+### Get attachment by ID
+GET http://localhost:6767/attachment/ATTACHMENT_ID_HERE
+
+###
+
+### Delete attachment
+DELETE http://localhost:6767/attachment/ATTACHMENT_ID_HERE
