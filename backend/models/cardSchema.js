@@ -1,4 +1,5 @@
-const cardSchema = new mongoose.Schema({
+import mongoose from "mongoose";
+export const cardSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: String,
 
