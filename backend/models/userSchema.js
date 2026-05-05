@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema } from "mongoose";
 
-const userSchema = new mongoose.Schema({
+export const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: String,
 
@@ -18,5 +18,3 @@ const userSchema = new mongoose.Schema({
 
   createdAt: { type: Date, default: Date.now }
 });
-
-export const userModel = model("User", userSchema)

@@ -1,4 +1,5 @@
-const listSchema = new mongoose.Schema({
+import { Schema } from "mongoose";
+export const listSchema = new mongoose.Schema({
   title: { type: String, required: true },
 
   board: {

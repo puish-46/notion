@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-const workspaceSchema = new mongoose.Schema({
+ export const workspaceSchema = new mongoose.Schema({
   name: { type: String, required: true },
 
   members: [{

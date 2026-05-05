@@ -1,4 +1,5 @@
-const boardSchema = new mongoose.Schema({
+import { Schema } from "mongoose";
+export const boardSchema = new mongoose.Schema({
   title: { type: String, required: true },
 
   workspace: {
