@@ -3,9 +3,9 @@ import { userModel } from '../models/mainModels.js';
 import jwt from 'jsonwebtoken'
 import {hash,compare} from 'bcryptjs'
 
-export const commonApp = exp.Router()
+export const commonAPP = exp.Router()
 
-    commonApp.post("/login", async (req, res) => {
+    commonAPP.post("/login", async (req, res) => {
 
   //get user cred obj
   const { email, password } = req.body;
@@ -43,7 +43,7 @@ export const commonApp = exp.Router()
 // })
 
 // commonAPP.post("/logout")
-commonApp.get("/logout", (req, res) => {
+commonAPP.get("/logout", (req, res) => {
   //delete token from cookie storage
   res.clearCookie("token", {
     httpOnly: true,
