@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
  export const workspaceSchema = new mongoose.Schema({
   name: { type: String, required: true },
 
@@ -11,9 +11,9 @@ import { Schema, model } from "mongoose";
     }
   }],
 
-  boards: [{
+  pages: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Board"
+    ref: "Page"
   }],
 
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

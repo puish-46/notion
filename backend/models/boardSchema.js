@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
 export const boardSchema = new mongoose.Schema({
   title: { type: String, required: true },
 
@@ -10,11 +10,11 @@ export const boardSchema = new mongoose.Schema({
 
   members: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    role: {
-      type: String,
-      enum: ["ADMIN", "MEMBER", "VIEWER"],
-      default: "MEMBER"
-    }
+    // role: {
+    //   type: String,
+    //   enum: ["EDIT", "COMMENT", "VIEW"],
+    //   default: "VIEW"
+    // }
   }],
 
   lists: [{

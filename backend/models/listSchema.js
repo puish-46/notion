@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
 export const listSchema = new mongoose.Schema({
   title: { type: String, required: true },
 
@@ -17,4 +17,4 @@ export const listSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-listSchema.index({ board: 1, position: 1 });
+listSchema.index({ board: 1, position: 1 }, { unique: true });

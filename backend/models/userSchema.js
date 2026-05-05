@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 export const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
