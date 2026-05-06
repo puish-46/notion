@@ -4,7 +4,7 @@ import { verifyToken } from '../middleware/verifyToken.js'
 
 export const cardAPP = express.Router()
 
-// helper to log activity
+// log activity for card
 const logActivity = async (action, entityId, details, userId, workspace) => {
     try {
         await activityModel.create({
