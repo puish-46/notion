@@ -1,24 +1,4 @@
+# Notion Clone
 
-## me @xorinf
-- activity 
-- ping done
-- auth done
-- card done
-
-## piyush @puish-46
-
-- attachment
-- invite
-- user
-
-## karthik @karthik-engili
-
-- board
-- page
-- workspace
-
-## sanjana 
-
-- notification
-- list
-- search
+A full-stack Notion clone featuring workspaces, boards, pages, and real-time activity tracking.
+Built with the MERN stack (MongoDB, Express, React, Node.js).
