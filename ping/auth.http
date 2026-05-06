@@ -1,32 +1,32 @@
-### Register a new user
+### Register a new user done
 POST http://localhost:6767/auth/register
 Content-Type: application/json
 
 {
-    "firstName": "Miau",
-    "lastName": "Meow",
-    "email": "meow@gmail.com",
+    "firstName": "Yashh",
+    "lastName": "MEOW",
+    "email": "yash@gmail.com",
     "password": "meow",
-    "avatarUrl": "https://gandithatha.com"
+    "avatarUrl": "https://media.tenor.com/cRTQk6N_FxMAAAAe/swag-cat-swagbilli-cutecat-cats-cat-swag-ok-yooo-yo.png"
 }
 
 ###
 
-### Login
+### Login done
 POST http://localhost:6767/auth/login
 Content-Type: application/json
 
 {
-    "email": "meow@gmail.com",
+    "email": "yash@gmail.com",
     "password": "meow"
 }
 
 ###
 
-### Logout
+### Logout done
 GET http://localhost:6767/auth/logout
 
 ###
 
-### Check auth status
+### Check auth status done
 GET http://localhost:6767/auth/check-auth

@@ -1,13 +1,14 @@
-import exp from 'express';
+import exp, { response } from 'express';
 import { userModel } from '../models/mainModels.js';
 import jwt from 'jsonwebtoken'
 import { hash, compare } from 'bcryptjs'
 import { config } from 'dotenv';
+import { verifyToken } from '../middleware/verifyToken.js';
 config({ override: false })
 
 export const commonAPP = exp.Router()
 
-commonAPP.post("/login", async (req, res) => {
+commonAPP.post("/login", async (req, res, next) => {
     try {
         //get user cred obj
         const { email, password } = req.body;
@@ -39,6 +40,7 @@ commonAPP.post("/login", async (req, res) => {
             },
         );
         const userObj = user.toObject()
+        delete userObj.password;
         //send res
         res.cookie("token", signedToken, {
             httpOnly: true,
@@ -47,7 +49,7 @@ commonAPP.post("/login", async (req, res) => {
         });
         res.status(200).json({ message: "login success", payload: userObj });
     } catch (err) {
-        console.log(err)
+        next(err);
     }
 });
 
@@ -80,3 +82,7 @@ commonAPP.post("/register", async (request, response, next) => {
         next(err);
     }
 });
+
+commonAPP.get("/check-auth", verifyToken(), async (request, response) => {
+    response.status(200).json({ message: "Authenticated", payload: request.user });
+})

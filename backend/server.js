@@ -4,6 +4,10 @@ import { config } from 'dotenv';
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { commonAPP } from './API/commonAPI.js';
+import { cardAPP } from './API/cardAPI.js';
+import { activityAPP } from './API/activityAPP.js';
+import { pageAPP } from './API/pageAPI.js';
+import { boardAPP } from './API/boardAPI.js';
 
 config({ path: "../.env" });
 const app = express();
@@ -17,6 +21,10 @@ app.use(cookieParser());
 
 // routes
 app.use("/auth", commonAPP);
+app.use("/card", cardAPP);
+app.use("/activity", activityAPP);
+app.use("/page", pageAPP);
+app.use("/board", boardAPP);
 
 // health check
 app.get('/', (req, res) => {
@@ -52,10 +60,12 @@ app.use((err, req, res, next) => {
   if (err.name === "ValidationError") {
     return res.status(400).json({ message: "error occurred", error: err.message });
   }
+
   //CastError
   if (err.name === "CastError") {
     return res.status(400).json({ message: "error occurred", error: err.message });
   }
+
   const errCode = err.code ?? err.cause?.code ?? err.errorResponse?.code;
   const keyValue = err.keyValue ?? err.cause?.keyValue ?? err.errorResponse?.keyValue;
   // check mongoose error!
@@ -67,5 +77,6 @@ app.use((err, req, res, next) => {
       error: `${field} "${value}" already exists`,
     });
   }
+  
   res.status(500).json({ message: "error occurred", error: "Server side error" });
 });

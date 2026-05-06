@@ -16,9 +16,9 @@ export const verifyToken = (...allowedRoles) => {
             let decodedToken = verify(token, process.env.SECRET_KEY);
 
             //check the role is same as role in decodedToken
-            if (!allowedRoles.includes(decodedToken.role)) {
-                return res.status(403).json({ message: "You are not authorized" })
-            }
+            // if (!allowedRoles.includes(decodedToken.role)) {
+            //     return res.status(403).json({ message: "You are not authorized" })
+            // }
             //add decoded token
             req.user = decodedToken;
             next();
@@ -27,3 +27,4 @@ export const verifyToken = (...allowedRoles) => {
         }
     };
 };
+
