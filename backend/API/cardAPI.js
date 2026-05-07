@@ -21,7 +21,7 @@ const logActivity = async (action, entityId, details, userId, workspace) => {
 }
 
 // Create card in list
-cardAPP.post("/data", verifyToken(), async (request, response, next) => {
+cardAPP.post("", verifyToken(), async (request, response, next) => {
     try {
         let content = request.body
         content.createdBy = request.user?.id
@@ -44,7 +44,7 @@ cardAPP.post("/data", verifyToken(), async (request, response, next) => {
 })
 
 // Get all cards in list
-cardAPP.get("/data", async (request, response, next) => {
+cardAPP.get("", async (request, response, next) => {
     try {
         const { list } = request.query
         const cards = await cardModel.find({ list }).sort({ position: 1 })
@@ -55,7 +55,7 @@ cardAPP.get("/data", async (request, response, next) => {
 })
 
 // Get card by ID
-cardAPP.get("/data/:id", async (request, response, next) => {
+cardAPP.get("/:id", async (request, response, next) => {
     try {
         const data = await cardModel.findById(request.params.id)
             .populate("members", "firstName lastName avatarUrl email")
@@ -68,7 +68,7 @@ cardAPP.get("/data/:id", async (request, response, next) => {
 })
 
 // Update card
-cardAPP.put("/data/:id", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id", verifyToken(), async (request, response, next) => {
     try {
         const updatedCard = await cardModel.findByIdAndUpdate(
             request.params.id,
@@ -83,7 +83,7 @@ cardAPP.put("/data/:id", verifyToken(), async (request, response, next) => {
 })
 
 // Move card to different list
-cardAPP.put("/data/:id/move", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id/move", verifyToken(), async (request, response, next) => {
     try {
         const { targetList, position } = request.body
         const card = await cardModel.findById(request.params.id)
@@ -119,7 +119,7 @@ cardAPP.put("/data/:id/move", verifyToken(), async (request, response, next) => 
 })
 
 // Reorder card within same list
-cardAPP.put("/data/:id/reorder", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id/reorder", verifyToken(), async (request, response, next) => {
     try {
         const { position } = request.body
         const card = await cardModel.findByIdAndUpdate(
@@ -135,7 +135,7 @@ cardAPP.put("/data/:id/reorder", verifyToken(), async (request, response, next) 
 })
 
 // Mark card as completed
-cardAPP.put("/data/:id/complete", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id/complete", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findByIdAndUpdate(
             request.params.id,
@@ -150,7 +150,7 @@ cardAPP.put("/data/:id/complete", verifyToken(), async (request, response, next)
 })
 
 // Mark card as incomplete
-cardAPP.put("/data/:id/incomplete", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id/incomplete", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findByIdAndUpdate(
             request.params.id,
@@ -165,7 +165,7 @@ cardAPP.put("/data/:id/incomplete", verifyToken(), async (request, response, nex
 })
 
 // Archive card
-cardAPP.put("/data/:id/archive", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id/archive", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findByIdAndUpdate(
             request.params.id,
@@ -180,7 +180,7 @@ cardAPP.put("/data/:id/archive", verifyToken(), async (request, response, next) 
 })
 
 // Unarchive card
-cardAPP.put("/data/:id/unarchive", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id/unarchive", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findByIdAndUpdate(
             request.params.id,
@@ -195,7 +195,7 @@ cardAPP.put("/data/:id/unarchive", verifyToken(), async (request, response, next
 })
 
 // Delete card
-cardAPP.delete("/data/:id", verifyToken(), async (request, response, next) => {
+cardAPP.delete("/:id", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findById(request.params.id)
         if (!card) return response.status(404).json({ message: "Card Not Found" })
@@ -211,7 +211,7 @@ cardAPP.delete("/data/:id", verifyToken(), async (request, response, next) => {
 })
 
 // Assign member to card
-cardAPP.post("/data/:id/members", verifyToken(), async (request, response, next) => {
+cardAPP.post("/:id/members", verifyToken(), async (request, response, next) => {
     try {
         const { userId } = request.body
         const card = await cardModel.findByIdAndUpdate(
@@ -227,7 +227,7 @@ cardAPP.post("/data/:id/members", verifyToken(), async (request, response, next)
 })
 
 // Remove member from card
-cardAPP.delete("/data/:id/members/:userId", verifyToken(), async (request, response, next) => {
+cardAPP.delete("/:id/members/:userId", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findByIdAndUpdate(
             request.params.id,
@@ -242,7 +242,7 @@ cardAPP.delete("/data/:id/members/:userId", verifyToken(), async (request, respo
 })
 
 // Add label to card
-cardAPP.post("/data/:id/labels", verifyToken(), async (request, response, next) => {
+cardAPP.post("/:id/labels", verifyToken(), async (request, response, next) => {
     try {
         const { name, color } = request.body
         const card = await cardModel.findByIdAndUpdate(
@@ -258,7 +258,7 @@ cardAPP.post("/data/:id/labels", verifyToken(), async (request, response, next) 
 })
 
 // Remove label from card
-cardAPP.delete("/data/:id/labels/:labelId", verifyToken(), async (request, response, next) => {
+cardAPP.delete("/:id/labels/:labelId", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findByIdAndUpdate(
             request.params.id,
@@ -273,7 +273,7 @@ cardAPP.delete("/data/:id/labels/:labelId", verifyToken(), async (request, respo
 })
 
 // Add checklist item
-cardAPP.post("/data/:id/checklist", verifyToken(), async (request, response, next) => {
+cardAPP.post("/:id/checklist", verifyToken(), async (request, response, next) => {
     try {
         const { text } = request.body
         const card = await cardModel.findByIdAndUpdate(
@@ -289,7 +289,7 @@ cardAPP.post("/data/:id/checklist", verifyToken(), async (request, response, nex
 })
 
 // Toggle checklist item
-cardAPP.put("/data/:id/checklist/:itemId", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id/checklist/:itemId", verifyToken(), async (request, response, next) => {
     try {
         const { completed } = request.body
         const card = await cardModel.findOneAndUpdate(
@@ -305,7 +305,7 @@ cardAPP.put("/data/:id/checklist/:itemId", verifyToken(), async (request, respon
 })
 
 // Delete checklist item
-cardAPP.delete("/data/:id/checklist/:itemId", verifyToken(), async (request, response, next) => {
+cardAPP.delete("/:id/checklist/:itemId", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findByIdAndUpdate(
             request.params.id,
@@ -320,7 +320,7 @@ cardAPP.delete("/data/:id/checklist/:itemId", verifyToken(), async (request, res
 })
 
 // Add comment to card
-cardAPP.post("/data/:id/comments", verifyToken(), async (request, response, next) => {
+cardAPP.post("/:id/comments", verifyToken(), async (request, response, next) => {
     try {
         const { text } = request.body
         const card = await cardModel.findByIdAndUpdate(
@@ -336,7 +336,7 @@ cardAPP.post("/data/:id/comments", verifyToken(), async (request, response, next
 })
 
 // Update comment
-cardAPP.put("/data/:id/comments/:commentId", verifyToken(), async (request, response, next) => {
+cardAPP.put("/:id/comments/:commentId", verifyToken(), async (request, response, next) => {
     try {
         const { text } = request.body
         const card = await cardModel.findOneAndUpdate(
@@ -352,7 +352,7 @@ cardAPP.put("/data/:id/comments/:commentId", verifyToken(), async (request, resp
 })
 
 // Delete comment
-cardAPP.delete("/data/:id/comments/:commentId", verifyToken(), async (request, response, next) => {
+cardAPP.delete("/:id/comments/:commentId", verifyToken(), async (request, response, next) => {
     try {
         const card = await cardModel.findByIdAndUpdate(
             request.params.id,

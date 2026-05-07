@@ -1,5 +1,5 @@
 import express from 'express'
-import { workspaceModel, userModel, boardModel, pageModel } from '../models/mainModels.js'
+import { workspaceModel, userModel, boardModel, pageModel, activityModel } from '../models/mainModels.js'
 import { verifyToken } from '../middleware/verifyToken.js'
 
 export const workspaceAPP = express.Router()
@@ -104,5 +104,18 @@ workspaceAPP.put("/:id/members/:userId", verifyToken(), async(req,res,next)=>{
             { new: true }
         )
         res.status(200).json({message:"Member role updated successfully",payload:workspace})
+    } catch(err) { next(err) }
+})
+
+//get workspace activity
+workspaceAPP.get("/:id/activity", verifyToken(), async(req,res,next)=>{
+    try {
+        const {id}=req.params
+        const activities=await activityModel
+            .find({ workspace: id })
+            .sort({ createdAt: -1 })
+            .limit(50)
+            .populate("performedBy", "firstName lastName avatarUrl email")
+        res.status(200).json({message:"Workspace activity fetched successfully",payload:activities})
     } catch(err) { next(err) }
 })
