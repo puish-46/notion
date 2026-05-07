@@ -1,91 +1,66 @@
-import exp from 'express'
-import { listSchema } from '../models/listSchema';
-export const listApp=exp.Router();
+import express from 'express'
+import { listModel } from '../models/mainModels.js'
+import { verifyToken } from '../middleware/verifyToken.js'
+
+export const listAPP = express.Router()
 
 // to create list
-listApp.post('/',async(req,res)=>{
-    //get new list obj from req
-    const newList=req.body;
-    //create new list document
-    const newListDoc=new listSchema(newList);
-    //save result
-    const result=await newListDoc.save();
-    //send res
-    res.status(201).json({message:"list created",result});
-});
+listAPP.post('/', verifyToken(), async(req,res,next)=>{
+    try {
+        const newList = req.body
+        newList.createdBy = req.user.id
+        const newListDoc = await listModel.create(newList)
+        res.status(201).json({message:"list created",payload:newListDoc})
+    } catch(err) { next(err) }
+})
 
 // Get all lists in board
-listApp.get("/", async (req, res) => {
-// get board id from query
-    const { board } = req.query;
-// find lists
-    const lists = await List.find({ board });
-// response
-    res.status(200).json({message: "Lists fetched successfully",lists});
-});
-
+listAPP.get("/", verifyToken(), async (req, res, next) => {
+    try {
+        const { board } = req.query
+        const lists = await listModel.find({ board, archived: false }).sort({ position: 1 })
+        res.status(200).json({message: "Lists fetched successfully",payload:lists})
+    } catch(err) { next(err) }
+})
 
 // Get list by ID
-listApp.get("/:id", async (req, res) => {
-// get list id
-    const { id } = req.params;
-// find list
-    const list = await List.findById(id);
-// if list not found
-    if (!list) {
-        return res.status(404).json({
-            message: "List not found"
-        });
-    }
-// response
-    res.status(200).json({ message: "List fetched successfully",list });
-});
-
+listAPP.get("/:id", verifyToken(), async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const list = await listModel.findById(id).populate("cards")
+        if (!list) return res.status(404).json({ message: "List not found" })
+        res.status(200).json({ message: "List fetched successfully",payload:list })
+    } catch(err) { next(err) }
+})
 
 // Update list title
-listApp.put("/:id", async (req, res) => {
-// get list id
-    const { id } = req.params;
-// get updated title
-    const { title } = req.body;
-// update list
-    const updateList = await List.findByIdAndUpdate(id,{ title },{ new: true });
-// if list not found
-if (!updateList) {
-    return res.status(404).json({ message: "List not found" });
- }
-// response
-    res.status(200).json({message: "List updated successfully",updateList});
-});
-
+listAPP.put("/:id", verifyToken(), async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const { title } = req.body
+        const updateList = await listModel.findByIdAndUpdate(id,{ title },{ new: true })
+        if (!updateList) return res.status(404).json({ message: "List not found" })
+        res.status(200).json({message: "List updated successfully",payload:updateList})
+    } catch(err) { next(err) }
+})
 
 // Reorder list
-listApp.put("/:id/reorder", async (req, res) => {
-// get list id
-    const { id } = req.params;
-// get new position
-    const { position } = req.body;
-// update position
-    const reorderList = await List.findByIdAndUpdate(id,{ position }, { new: true });
-// if list not found
-    if (!reorderList) {
-        return res.status(404).json({ message: "List not found"});
-    }
-// response
-    res.status(200).json({message: "List reordered successfully", reorderList});
-});
-
+listAPP.put("/:id/reorder", verifyToken(), async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const { position } = req.body
+        const reorderList = await listModel.findByIdAndUpdate(id,{ position }, { new: true })
+        if (!reorderList) return res.status(404).json({ message: "List not found"})
+        res.status(200).json({message: "List reordered successfully", payload:reorderList})
+    } catch(err) { next(err) }
+})
 
 // Delete list
-listApp.delete("/:id", async (req, res) => {
-// get list id
-    const { id } = req.params;
-// delete list
-    const deleteList = await List.findByIdAndDelete(id);
-// if list not found
-    if (!deleteList) {
-        return res.status(404).json({ message: "List not found" });
-    }
-// response
-    res.status(200).json({message: "List deleted successfully"});
-});
+listAPP.delete("/:id", verifyToken(), async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const deleteList = await listModel.findByIdAndDelete(id)
+        if (!deleteList) return res.status(404).json({ message: "List not found" })
+        res.status(200).json({message: "List deleted successfully"})
+    } catch(err) { next(err) }
+})

@@ -8,6 +8,10 @@ import { cardAPP } from './API/cardAPI.js';
 import { activityAPP } from './API/activityAPP.js';
 import { pageAPP } from './API/pageAPI.js';
 import { boardAPP } from './API/boardAPI.js';
+import { workspaceAPP } from './API/workspaceAPI.js';
+import { listAPP } from './API/listAPI.js';
+import { notificationAPP } from './API/notificationAPI.js';
+import { searchAPP } from './API/searchAPI.js';
 
 config({ path: "../.env" });
 const app = express();
@@ -25,6 +29,10 @@ app.use("/card", cardAPP);
 app.use("/activity", activityAPP);
 app.use("/page", pageAPP);
 app.use("/board", boardAPP);
+app.use("/workspace", workspaceAPP);
+app.use("/list", listAPP);
+app.use("/notification", notificationAPP);
+app.use("/search", searchAPP);
 
 // health check
 app.get('/', (req, res) => {

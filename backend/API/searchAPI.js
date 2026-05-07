@@ -1,45 +1,38 @@
-import exp from 'express'
-import { cardSchema } from '../models/cardSchema';
+import express from 'express'
+import { cardModel, pageModel, boardModel } from '../models/mainModels.js'
+import { verifyToken } from '../middleware/verifyToken.js'
 
-export const searchApp=exp.Router();
+export const searchAPP = express.Router()
 
 // search across cards,pages,boards
-searchApp.get('/',async(req,res)=>{
-    //get the req body
-    const {q,workspace,type}=req.query;
-    //if search word isn't entered
-    if(!q){
-       return res.status(400).json({message:"Please enter to search"});
-    }
-    //to store the result
-    let result={};
-  // to search cards
-  if(type=="card"){
-    const cards=await Card.find({workspace,title:q});
-    result.cards=cards;
-  }
-  // to search pages
-  else if(type=="page"){
-    const pages=await Page.find({workspace,title:q});
-    result.pages=pages;
-  }
-   // to search board
-  else if(type=="board"){
-    const boards=await Board.find({workspace,title:q});
-    result.boards=boards;
-  }
-  // if type not specified
-else {
+searchAPP.get('/', verifyToken(), async(req,res,next)=>{
+    try {
+        const {q,workspace,type}=req.query
+        if(!q) return res.status(400).json({message:"Please enter a search query"})
+        if(!workspace) return res.status(400).json({message:"Workspace is required"})
 
-    const cards = await Card.find({workspace,title: q,});
+        let result={}
+        const searchRegex = new RegExp(q, 'i')
 
-    const pages = await Page.find({workspace,title: q,});
+        if(type=="card"){
+            const cards=await cardModel.find({workspace,title:searchRegex, archived: false})
+            result.cards=cards
+        }
+        else if(type=="page"){
+            const pages=await pageModel.find({workspace,title:searchRegex, isArchived: false})
+            result.pages=pages
+        }
+        else if(type=="board"){
+            const boards=await boardModel.find({workspace,title:searchRegex, archived: false})
+            result.boards=boards
+        }
+        else {
+            const cards = await cardModel.find({workspace,title: searchRegex, archived: false})
+            const pages = await pageModel.find({workspace,title: searchRegex, isArchived: false})
+            const boards = await boardModel.find({workspace,title: searchRegex, archived: false})
+            result= {cards,pages,boards}
+        }
 
-    const boards = await Board.find({workspace,title: q,});
-
-    result= {cards,pages,boards,};
-  }
-
-  res.status(200).json({success: true,result,});
-});
-
+        res.status(200).json({success: true, payload: result})
+    } catch(err) { next(err) }
+})
