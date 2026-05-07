@@ -12,6 +12,9 @@ import { workspaceAPP } from './API/workspaceAPI.js';
 import { listAPP } from './API/listAPI.js';
 import { notificationAPP } from './API/notificationAPI.js';
 import { searchAPP } from './API/searchAPI.js';
+import { userAPP } from './API/userAPI.js';
+import { attachmentAPP } from './API/attachmentAPI.js';
+import { inviteAPP } from './API/inviteAPI.js';
 
 config({ path: "../.env" });
 const app = express();
@@ -33,6 +36,9 @@ app.use("/workspace", workspaceAPP);
 app.use("/list", listAPP);
 app.use("/notification", notificationAPP);
 app.use("/search", searchAPP);
+app.use("/user", userAPP);
+app.use("/attachment", attachmentAPP);
+app.use("/invite", inviteAPP);
 
 // health check
 app.get('/', (req, res) => {

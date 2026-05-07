@@ -1,171 +1,157 @@
-import exp from 'express'
-import { userSchema } from '../models/userSchema'
-import { boardSchema } from '../models/boardSchema'
-import { pageSchema } from '../models/pageSchema'
-import { workspaceSchema } from '../models/workspaceSchema'
-import { hash,compare } from "bcryptjs"
-export const userApp=exp()
+import express from 'express'
+import { userModel, boardModel, pageModel, workspaceModel } from '../models/mainModels.js'
+import { hash, compare } from "bcryptjs"
+import { verifyToken } from '../middleware/verifyToken.js'
 
-
+export const userAPP = express.Router()
 
 //get user profile
-userApp.get("/me",async(req,res)=>{
-    //get user id 
-    const userId=req.user?.userId
-    //read user
-    const user=await userSchema.findById(userId)
-    if(!user){
-        return res.status(404).json({message:"User not found"})
-    }
-    //send response
-    res.status(200).json({message:"user profile",payload:user})
+userAPP.get("/me", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const user = await userModel.findById(userId).select("-password")
+        if(!user) return res.status(404).json({message:"User not found"})
+        res.status(200).json({message:"user profile",payload:user})
+    } catch(err) { next(err) }
 })
-
 
 //update my profile
-userApp.put("/me",async(req,res)=>{
-    //get user id from decoded token
-    const userId=req.user?.userId
-    //get modified profile from req body
-    const {firstName,lastName,avatarUrl}=req.body
-    const modifieduser=await userSchema.findOneAndUpdate({_id:userId},{$set:{firstName,lastName,avatarUrl}},{returnDocument:"after"})
-    if(!modifieduser){
-        return res.status(404).json({message:"User not found"});
-    }
-    //send response
-    res.status(200).json({message:"Profile updated successfully",payload:modifieduser})
+userAPP.put("/me", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const {firstName,lastName,avatarUrl} = req.body
+        const modifieduser = await userModel.findOneAndUpdate(
+            {_id:userId},
+            {$set:{firstName,lastName,avatarUrl}},
+            {new:true}
+        ).select("-password")
+        
+        if(!modifieduser) return res.status(404).json({message:"User not found"})
+        res.status(200).json({message:"Profile updated successfully",payload:modifieduser})
+    } catch(err) { next(err) }
 })
-
 
 //change password
-userApp.put("/change-password",async(req,res)=>{
-    //get user id
-    const userId=req.user?.userId
-    //get modified password
-    const {currentPassword,newPassword}=req.body
-    //read user
-    const user=await userSchema.findById(userId)
-    if(!user){
-        return res.status(404).json({message:"user not found"})
-    }
-    //compare password
-    const isMatch=await compare(currentPassword,user.password)
-    if(!isMatch){
-        return res.status(400).json({message:"Current password incorrect"})
-    }
-    //hash new password
-    const hashedPassword=await hash(newPassword,12)
-    //update password
-    user.password=hashedPassword
-    await user.save()
-    //send response
-    res.status(200).json({message:"Password changed successfully"})
+userAPP.put("/change-password", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const {currentPassword,newPassword} = req.body
+        const user = await userModel.findById(userId)
+        
+        if(!user) return res.status(404).json({message:"user not found"})
+        
+        const isMatch = await compare(currentPassword, user.password)
+        if(!isMatch) return res.status(400).json({message:"Current password incorrect"})
+        
+        const hashedPassword = await hash(newPassword,12)
+        user.password = hashedPassword
+        await user.save()
+        
+        res.status(200).json({message:"Password changed successfully"})
+    } catch(err) { next(err) }
 })
 
-
 //star a board
-userApp.post("/star/board/:boardId",async(req,res)=>{
-    //get user id
-    const userId=req.user?.userId
-    //get board id
-    const boardId=req.params.boardId
-    //read user
-    const user=await userSchema.findById(userId)
-    //read board
-    const board=await boardSchema.findById(boardId)
-    if(!board){
-        return res.status(404).json({message:"Board not found"})
-    }
-    //check if board is already starred
-    if(user.starredBoards.includes(boardId)){
-        return res.status(400).json({message:"Board is already starred"})
-    }
-    //add board to starred boards
-    user.starredBoards.push(boardId)
-    await user.save()
-    //send response
-    res.status(200).json({message:"Board starred successfully",payload:user})
+userAPP.post("/star/board/:boardId", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const boardId = req.params.boardId
+        
+        const board = await boardModel.findById(boardId)
+        if(!board) return res.status(404).json({message:"Board not found"})
+        
+        const user = await userModel.findById(userId)
+        if(user.starredBoards.includes(boardId)) {
+            return res.status(400).json({message:"Board is already starred"})
+        }
+        
+        user.starredBoards.push(boardId)
+        await user.save()
+        
+        res.status(200).json({message:"Board starred successfully",payload:user})
+    } catch(err) { next(err) }
 })
 
 //unstar a board
-userApp.post("/unstar/board/:boardId",async(req,res)=>{
-    //get user id
-    const userId=req.user?.userId
-    //get board id
-    const boardId=req.params.boardId
-    //read user
-    const user=await userSchema.findById(userId)
-    //remove board from starred boards
-    user.starredBoards.pull(boardId)
-    await user.save()
-    //send response
-    res.status(200).json({message:"Board unstarred successfully",payload:user})
+userAPP.delete("/star/board/:boardId", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const boardId = req.params.boardId
+        
+        const user = await userModel.findByIdAndUpdate(
+            userId,
+            { $pull: { starredBoards: boardId } },
+            { new: true }
+        ).select("-password")
+        
+        res.status(200).json({message:"Board unstarred successfully",payload:user})
+    } catch(err) { next(err) }
 })
 
 //star page 
-userApp.post("/star/page/:pageId",async(req,res)=>{
-    //get user id
-    const userId=req.user?.userId
-    //get page id
-    const pageId=req.params.pageId
-    //read user
-    const user=await userSchema.findById(userId)
-    //read page
-    const page=await pageSchema.findById(pageId)
-    if(!page){
-        return res.status(404).json({message:"Page not found"})
-    }
-    //check if page is already starred
-    if(user.starredPages.includes(pageId)){
-        return res.status(400).json({message:"Page is already starred"})
-    }
-    //add page to starred pages
-    user.starredPages.push(pageId)
-    await user.save()
-    //send response
-    res.status(200).json({message:"Page starred successfully",payload:user})
+userAPP.post("/star/page/:pageId", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const pageId = req.params.pageId
+        
+        const page = await pageModel.findById(pageId)
+        if(!page) return res.status(404).json({message:"Page not found"})
+        
+        const user = await userModel.findById(userId)
+        if(user.starredPages.includes(pageId)) {
+            return res.status(400).json({message:"Page is already starred"})
+        }
+        
+        user.starredPages.push(pageId)
+        await user.save()
+        
+        res.status(200).json({message:"Page starred successfully",payload:user})
+    } catch(err) { next(err) }
 })
 
 //unstar a page
-userApp.post("/unstar/page/:pageId",async(req,res)=>{
-    //get user id
-    const userId=req.user?.userId
-    //get page id
-    const pageId=req.params.pageId
-    //read user
-    const user=await userSchema.findById(userId)
-    //remove page from starred pages
-    user.starredPages.pull(pageId)
-    await user.save()
-    //send response
-    res.status(200).json({message:"Page unstarred successfully",payload:user})
+userAPP.delete("/star/page/:pageId", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const pageId = req.params.pageId
+        
+        const user = await userModel.findByIdAndUpdate(
+            userId,
+            { $pull: { starredPages: pageId } },
+            { new: true }
+        ).select("-password")
+        
+        res.status(200).json({message:"Page unstarred successfully",payload:user})
+    } catch(err) { next(err) }
 })
 
 //get all starred items
-userApp.get("/starred",async(req,res)=>{
-    //get user id
-    const userId=req.user?.userId
-    //read user
-    const user=await userSchema.findById(userId).populate("starredBoards")
-    //send response
-    res.status(200).json({message:"Starred items",payload:user})
+userAPP.get("/starred", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const user = await userModel.findById(userId)
+            .populate("starredBoards")
+            .populate("starredPages")
+            .select("-password")
+            
+        if(!user) return res.status(404).json({message:"User not found"})
+        res.status(200).json({message:"Starred items",payload: { starredBoards: user.starredBoards, starredPages: user.starredPages }})
+    } catch(err) { next(err) }
 })
 
 //delete my account
-userApp.delete("/me",async(req,res)=>{
-    //get user id
-    const userId=req.user?.userId
-    //delete user
-    const user=await userSchema.findByIdAndDelete(userId)
-    if(!user){
-        return res.status(404).json({message:"User not found"})
-    }
-    //delete user from all workspaces
-    const workspaces=await workspaceSchema.find({members:userId})
-    workspaces.forEach(async(workspace)=>{
-        workspace.members.pull(userId)
-        await workspace.save()
-    })
-    //send response
-    res.status(200).json({message:"User deleted successfully"})
+userAPP.delete("/me", verifyToken(), async(req,res,next)=>{
+    try {
+        const userId = req.user.id
+        const user = await userModel.findByIdAndDelete(userId)
+        if(!user) return res.status(404).json({message:"User not found"})
+        
+        // Remove user from all workspaces they are a member of
+        await workspaceModel.updateMany(
+            { "members.user": userId },
+            { $pull: { members: { user: userId } } }
+        )
+        
+        res.status(200).json({message:"User deleted successfully"})
+    } catch(err) { next(err) }
 })
