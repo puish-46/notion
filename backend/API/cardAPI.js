@@ -1,8 +1,11 @@
 import express from 'express'
-import { cardModel, listModel, activityModel } from '../models/mainModels.js'
+import { cardModel, listModel, activityModel, attachmentModel } from '../models/mainModels.js'
 import { verifyToken } from '../middleware/verifyToken.js'
 
 export const cardAPP = express.Router()
+
+import { upload } from '../config/multer.js'
+import { uploadToCloudinary } from '../config/cloudinaryUpload.js'
 
 // log activity for card
 const logActivity = async (action, entityId, details, userId, workspace) => {
@@ -361,6 +364,101 @@ cardAPP.delete("/:id/comments/:commentId", verifyToken(), async (request, respon
         )
         if (!card) return response.status(404).json({ message: "Card Not Found" })
         response.status(200).json({ message: "Comment deleted", payload: card })
+    } catch (error) {
+        next(error)
+    }
+})
+
+// Add attachment to card
+cardAPP.post("/:id/attachments", verifyToken(), upload.single("file"), async (request, response, next) => {
+    try {
+        if (!request.file) return response.status(400).json({ message: "No file uploaded" })
+
+        // Upload to Cloudinary
+        const result = await uploadToCloudinary(request.file.buffer)
+
+        // Determine file type
+        let fileType = "other"
+        if (request.file.mimetype.startsWith("image/")) fileType = "image"
+        else if (request.file.mimetype.startsWith("video/")) fileType = "video"
+        else if (request.file.mimetype.includes("pdf") || request.file.mimetype.includes("document")) fileType = "document"
+
+        // Create attachment document
+        const newAttachment = new attachmentModel({
+            filename: request.file.originalname,
+            url: result.secure_url,
+            fileType,
+            card: request.params.id,
+            uploadedBy: request.user.id
+        })
+        await newAttachment.save()
+
+        // Link to card
+        const card = await cardModel.findByIdAndUpdate(
+            request.params.id,
+            { $push: { attachments: newAttachment._id } },
+            { returnDocument: 'after' }
+        )
+        if (!card) return response.status(404).json({ message: "Card Not Found" })
+
+        response.status(201).json({ message: "Attachment added", payload: newAttachment })
+    } catch (error) {
+        next(error)
+    }
+})
+
+// Delete attachment from card
+cardAPP.delete("/:id/attachments/:attachmentId", verifyToken(), async (request, response, next) => {
+    try {
+        const card = await cardModel.findByIdAndUpdate(
+            request.params.id,
+            { $pull: { attachments: request.params.attachmentId } },
+            { returnDocument: 'after' }
+        )
+        if (!card) return response.status(404).json({ message: "Card Not Found" })
+
+        // Optional: Also delete from Cloudinary here if needed, but we'll just delete the document for now.
+        await attachmentModel.findByIdAndDelete(request.params.attachmentId)
+
+        response.status(200).json({ message: "Attachment deleted" })
+    } catch (error) {
+        next(error)
+    }
+})
+
+// Upload cover image to card
+cardAPP.post("/:id/cover", verifyToken(), upload.single("file"), async (request, response, next) => {
+    try {
+        if (!request.file) return response.status(400).json({ message: "No file uploaded" })
+
+        // Upload to Cloudinary
+        const result = await uploadToCloudinary(request.file.buffer)
+
+        // Link to card cover
+        const card = await cardModel.findByIdAndUpdate(
+            request.params.id,
+            { coverImage: result.secure_url },
+            { returnDocument: 'after' }
+        )
+        if (!card) return response.status(404).json({ message: "Card Not Found" })
+
+        response.status(200).json({ message: "Cover image added", payload: card })
+    } catch (error) {
+        next(error)
+    }
+})
+
+// Remove cover image from card
+cardAPP.delete("/:id/cover", verifyToken(), async (request, response, next) => {
+    try {
+        const card = await cardModel.findByIdAndUpdate(
+            request.params.id,
+            { coverImage: "" },
+            { returnDocument: 'after' }
+        )
+        if (!card) return response.status(404).json({ message: "Card Not Found" })
+
+        response.status(200).json({ message: "Cover image removed", payload: card })
     } catch (error) {
         next(error)
     }
