@@ -55,6 +55,26 @@ listAPP.put("/:id/reorder", verifyToken(), async (req, res, next) => {
     } catch(err) { next(err) }
 })
 
+// Archive list
+listAPP.put("/:id/archive", verifyToken(), async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const archiveList = await listModel.findByIdAndUpdate(id, { archived: true }, { new: true })
+        if (!archiveList) return res.status(404).json({ message: "List not found" })
+        res.status(200).json({ message: "List archived successfully", payload: archiveList })
+    } catch(err) { next(err) }
+})
+
+// Unarchive list
+listAPP.put("/:id/unarchive", verifyToken(), async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const unarchiveList = await listModel.findByIdAndUpdate(id, { archived: false }, { new: true })
+        if (!unarchiveList) return res.status(404).json({ message: "List not found" })
+        res.status(200).json({ message: "List unarchived successfully", payload: unarchiveList })
+    } catch(err) { next(err) }
+})
+
 // Delete list
 listAPP.delete("/:id", verifyToken(), async (req, res, next) => {
     try {

@@ -1,5 +1,5 @@
 ### Create card in list
-POST http://localhost:6767/card/data
+POST http://localhost:6767/card
 Content-Type: application/json
 
 {
@@ -15,17 +15,17 @@ Content-Type: application/json
 ###
 
 ### Get all cards in list
-GET http://localhost:6767/card/data?list=69faf96f52cbf771385c3fd4
+GET http://localhost:6767/card?list=69faf96f52cbf771385c3fd4
 
 ###
 
 ### Get card by ID
-GET http://localhost:6767/card/data/69faf34771564cfca00fed9a
+GET http://localhost:6767/card/69faf34771564cfca00fed9a
 
 ###
 
 ### Update card
-PUT http://localhost:6767/card/data/69faf34771564cfca00fed9a
+PUT http://localhost:6767/card/69faf34771564cfca00fed9a
 Content-Type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-Type: application/json
 ###
 
 ### Move card to different list
-PUT http://localhost:6767/card/data/CARD_ID_HERE/move
+PUT http://localhost:6767/card/CARD_ID_HERE/move
 Content-Type: application/json
 
 {
@@ -50,7 +50,7 @@ Content-Type: application/json
 ###
 
 ### Reorder card within same list
-PUT http://localhost:6767/card/data/CARD_ID_HERE/reorder
+PUT http://localhost:6767/card/CARD_ID_HERE/reorder
 Content-Type: application/json
 
 {
@@ -60,32 +60,32 @@ Content-Type: application/json
 ###
 
 ### Mark card as completed
-PUT http://localhost:6767/card/data/CARD_ID_HERE/complete
+PUT http://localhost:6767/card/CARD_ID_HERE/complete
 
 ###
 
 ### Mark card as incomplete
-PUT http://localhost:6767/card/data/CARD_ID_HERE/incomplete
+PUT http://localhost:6767/card/CARD_ID_HERE/incomplete
 
 ###
 
 ### Archive card
-PUT http://localhost:6767/card/data/CARD_ID_HERE/archive
+PUT http://localhost:6767/card/CARD_ID_HERE/archive
 
 ###
 
 ### Unarchive card
-PUT http://localhost:6767/card/data/CARD_ID_HERE/unarchive
+PUT http://localhost:6767/card/CARD_ID_HERE/unarchive
 
 ###
 
 ### Delete card
-DELETE http://localhost:6767/card/data/CARD_ID_HERE
+DELETE http://localhost:6767/card/CARD_ID_HERE
 
 ###
 
 ### Assign member to card
-POST http://localhost:6767/card/data/CARD_ID_HERE/members
+POST http://localhost:6767/card/CARD_ID_HERE/members
 Content-Type: application/json
 
 {
@@ -95,12 +95,12 @@ Content-Type: application/json
 ###
 
 ### Remove member from card
-DELETE http://localhost:6767/card/data/CARD_ID_HERE/members/USER_ID_HERE
+DELETE http://localhost:6767/card/CARD_ID_HERE/members/USER_ID_HERE
 
 ###
 
 ### Add label to card
-POST http://localhost:6767/card/data/CARD_ID_HERE/labels
+POST http://localhost:6767/card/CARD_ID_HERE/labels
 Content-Type: application/json
 
 {
@@ -111,12 +111,12 @@ Content-Type: application/json
 ###
 
 ### Remove label from card
-DELETE http://localhost:6767/card/data/CARD_ID_HERE/labels/LABEL_ID_HERE
+DELETE http://localhost:6767/card/CARD_ID_HERE/labels/LABEL_ID_HERE
 
 ###
 
 ### Add checklist item
-POST http://localhost:6767/card/data/CARD_ID_HERE/checklist
+POST http://localhost:6767/card/CARD_ID_HERE/checklist
 Content-Type: application/json
 
 {
@@ -126,7 +126,7 @@ Content-Type: application/json
 ###
 
 ### Toggle checklist item
-PUT http://localhost:6767/card/data/CARD_ID_HERE/checklist/ITEM_ID_HERE
+PUT http://localhost:6767/card/CARD_ID_HERE/checklist/ITEM_ID_HERE
 Content-Type: application/json
 
 {
@@ -136,12 +136,12 @@ Content-Type: application/json
 ###
 
 ### Delete checklist item
-DELETE http://localhost:6767/card/data/CARD_ID_HERE/checklist/ITEM_ID_HERE
+DELETE http://localhost:6767/card/CARD_ID_HERE/checklist/ITEM_ID_HERE
 
 ###
 
 ### Add comment to card
-POST http://localhost:6767/card/data/CARD_ID_HERE/comments
+POST http://localhost:6767/card/CARD_ID_HERE/comments
 Content-Type: application/json
 
 {
@@ -151,7 +151,7 @@ Content-Type: application/json
 ###
 
 ### Update comment
-PUT http://localhost:6767/card/data/CARD_ID_HERE/comments/COMMENT_ID_HERE
+PUT http://localhost:6767/card/CARD_ID_HERE/comments/COMMENT_ID_HERE
 Content-Type: application/json
 
 {
@@ -161,4 +161,4 @@ Content-Type: application/json
 ###
 
 ### Delete comment
-DELETE http://localhost:6767/card/data/CARD_ID_HERE/comments/COMMENT_ID_HERE
+DELETE http://localhost:6767/card/CARD_ID_HERE/comments/COMMENT_ID_HERE
