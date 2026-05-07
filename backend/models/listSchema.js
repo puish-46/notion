@@ -16,7 +16,7 @@ export const listSchema = new mongoose.Schema({
 
   position: { type: Number, required: true },
 
-  archived: { type: Boolean, default: false },
+  //archived: { type: Boolean, default: false },
 
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 }, {

@@ -41,12 +41,12 @@ Content-Type: application/json
 ###
 
 ### Archive list
-PUT http://localhost:6767/list/LIST_ID_HERE/archive
+//PUT http://localhost:6767/list/LIST_ID_HERE/archive
 
 ###
 
 ### Unarchive list
-PUT http://localhost:6767/list/LIST_ID_HERE/unarchive
+//PUT http://localhost:6767/list/LIST_ID_HERE/unarchive
 
 ###
 

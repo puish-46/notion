@@ -1,7 +1,7 @@
 ### Search across cards, pages, boards
 GET http://localhost:6767/search?q=roadmap&workspace=WORKSPACE_ID_HERE
 
-###
+
 
 ### Search only cards
 GET http://localhost:6767/search?q=bug&type=card&workspace=WORKSPACE_ID_HERE
