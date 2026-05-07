@@ -45,5 +45,5 @@ export const inviteSchema = new mongoose.Schema({
   versionKey: false
 });
 
-inviteSchema.index({ inviteToken: 1 });
+// inviteSchema.index({ inviteToken: 1 });
 inviteSchema.index({ workspace: 1, email: 1 });

@@ -10,6 +10,7 @@ import { activitySchema } from "./activitySchema.js";
 import { notificationSchema } from "./notificationSchema.js";
 import { inviteSchema } from "./inviteSchema.js";
 
+//Models
 export const userModel = model("User", userSchema);
 export const workspaceModel = model("Workspace", workspaceSchema);
 export const boardModel = model("Board", boardSchema);
