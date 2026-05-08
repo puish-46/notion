@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { config } from "dotenv";
+// import { config } from "dotenv";
 const { verify } = jwt;
-config();
+// config();
 
 export const verifyToken = (...allowedRoles) => {
     return async (req, res, next) => {
