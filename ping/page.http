@@ -12,11 +12,12 @@ Content-Type: application/json
 ###
 
 ### Create sub-page (nested under parent)
-POST http://localhost:6767/page
+POST http://localhost:6767/page/sub-page
 Content-Type: application/json
 
 {
     "title": "Q1 Details",
+    "icon": ":P",
     "content": "Detailed breakdown of Q1 goals...",
     "workspace": "WORKSPACE_ID_HERE",
     "parent": "PARENT_PAGE_ID_HERE"
