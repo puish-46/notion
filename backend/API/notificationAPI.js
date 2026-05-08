@@ -16,7 +16,7 @@ notificationAPP.get("/", verifyToken(), async(req,res,next)=>{
 notificationAPP.get('/unread-count', verifyToken(), async(req,res,next)=>{
     try {
         const count=await notificationModel.countDocuments({recipient:req.user.id,isRead:false})
-        res.status(200).json({message:"Notification count fetched succesfully!",count})
+        res.status(200).json({message:"Notification count fetched succesfully!",count: count})
     } catch(err) { next(err) }
 })
 
