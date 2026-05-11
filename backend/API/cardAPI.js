@@ -376,6 +376,7 @@ cardAPP.post("/:id/attachments", verifyToken(), upload.single("file"), async (re
 
         // Upload to Cloudinary
         const result = await uploadToCloudinary(request.file.buffer)
+        
 
         // Determine file type
         let fileType = "other"

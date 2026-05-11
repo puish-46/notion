@@ -2,9 +2,9 @@ import exp, { response } from 'express';
 import { userModel } from '../models/mainModels.js';
 import jwt from 'jsonwebtoken'
 import { hash, compare } from 'bcryptjs'
-import { config } from 'dotenv';
+// import { config } from 'dotenv';
 import { verifyToken } from '../middleware/verifyToken.js';
-config({ override: false })
+// config({ override: false })
 
 export const commonAPP = exp.Router()
 

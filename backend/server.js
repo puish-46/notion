@@ -16,7 +16,7 @@ import { userAPP } from './API/userAPI.js';
 import { attachmentAPP } from './API/attachmentAPI.js';
 import { inviteAPP } from './API/inviteAPI.js';
 
-config({ path: "../.env" });
+config({ path: "../.env", encoding: "UTF-8", quiet: true });
 const app = express();
 
 app.use(cors({
@@ -91,6 +91,6 @@ app.use((err, req, res, next) => {
       error: `${field} "${value}" already exists`,
     });
   }
-  
+
   res.status(500).json({ message: "error occurred", error: "Server side error" });
 });
