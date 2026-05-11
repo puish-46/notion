@@ -16,7 +16,7 @@ import { userAPP } from './API/userAPI.js';
 import { attachmentAPP } from './API/attachmentAPI.js';
 import { inviteAPP } from './API/inviteAPI.js';
 
-config();
+config({ path: "../.env", encoding: "UTF-8", quiet: true });
 const app = express();
 
 app.use(cors({
