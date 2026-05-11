@@ -2,6 +2,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { Outlet } from "react-router"
 import Sidebar from "./Sidebar";
+import Search from "./Search";
+import Profile from "./Profile";
 
 
 function RootLayout() {

@@ -29,7 +29,7 @@ function Header() {
                     to="/login"
                     className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                    login
+                    Login
                     </NavLink>
                 </li>
             </ul>       
