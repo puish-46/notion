@@ -53,16 +53,23 @@ commonAPP.post("/login", async (req, res, next) => {
     }
 });
 
-commonAPP.get("/logout", (req, res) => {
-    //delete token from cookie storage
-    res.clearCookie("token", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        path: "/",
-    });
-    //send res
-    res.status(200).json({ message: "Logout success" });
+commonAPP.get("/logout", (req, res, next) => {
+
+    try {
+        if (!req.cookies?.token) { return res.status(403).json({ message: "invalid request.." }) }
+        //delete token from cookie storage
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            path: "/",
+        });
+        if (!req.cookies?.token) { return res.status(400).json({ message: "Logout failed!" }); }
+        //send res
+        return res.status(200).json({ message: "Logout success" });
+    } catch (error) {
+        next(error)
+    }
 });
 
 commonAPP.post("/register", async (request, response, next) => {
@@ -86,3 +93,5 @@ commonAPP.post("/register", async (request, response, next) => {
 commonAPP.get("/check-auth", verifyToken(), async (request, response) => {
     response.status(200).json({ message: "Authenticated", payload: request.user });
 })
+
+commonAPP.get("/you", (request, response, next) => { try { response.send("Alr Nigga")} catch(err){console.log(err)} })

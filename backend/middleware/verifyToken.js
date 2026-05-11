@@ -10,7 +10,7 @@ export const verifyToken = (...allowedRoles) => {
             const token = req.cookies?.token;
             //check token existed or not
             if (!token) {
-                return res.status(401).json({ message: "please login first" });
+                return res.status(401).json({ message: "unAuthorized Nigga!" });
             }
             //validate token(decode token)
             let decodedToken = verify(token, process.env.SECRET_KEY);
