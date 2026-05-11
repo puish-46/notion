@@ -5,7 +5,7 @@ function Header() {
   return (
     <nav className="max-w-full">
         <div className=" flex justify-between p-5"> 
-            <h2 className="logo text-4xl ">Workspace</h2>
+            <h2 className="logo text-4xl ">Taskify</h2>
             <ul className=" flex gap-x-20 items-center">
                 <li>
                     <NavLink
