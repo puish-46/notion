@@ -87,5 +87,44 @@ export const useAuth = create((set) => ({
     }
   },
 
+  updateProfile: async (data) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await axios.put("/user/me", data, { withCredentials: true });
+      set({
+        loading: false,
+        currentUser: res.data.payload,
+        error: null,
+      });
+      return res.data;
+    } catch (err) {
+      set({
+        loading: false,
+        error: err.response?.data?.message || "Failed to update profile",
+      });
+      throw err;
+    }
+  },
+
+  deleteAccount: async () => {
+    set({ loading: true, error: null });
+    try {
+      await axios.delete("/user/me", { withCredentials: true });
+      localStorage.removeItem("token");
+      set({
+        loading: false,
+        isAuthenticated: false,
+        currentUser: null,
+        error: null,
+      });
+    } catch (err) {
+      set({
+        loading: false,
+        error: err.response?.data?.message || "Failed to delete account",
+      });
+      throw err;
+    }
+  },
+
   clearError: () => set({ error: null }),
 }));

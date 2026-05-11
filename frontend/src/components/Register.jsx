@@ -86,7 +86,7 @@ function Register() {
                 id="firstName"
                 type="text"
                 autoComplete="given-name"
-                placeholder="Jane"
+                placeholder="first name"
                 className={`${inputClass} ${errors.firstName ? 'border-[#ff3b30]' : ''}`}
                 {...register('firstName', { required: 'Required' })}
               />
@@ -102,7 +102,7 @@ function Register() {
                 id="lastName"
                 type="text"
                 autoComplete="family-name"
-                placeholder="Doe"
+                placeholder="last name"
                 className={`${inputClass} ${errors.lastName ? 'border-[#ff3b30]' : ''}`}
                 {...register('lastName')}
               />
@@ -121,7 +121,7 @@ function Register() {
               id="reg-email"
               type="email"
               autoComplete="email"
-              placeholder="you@example.com"
+              placeholder="email@example.com"
               className={`${inputClass} ${errors.email ? 'border-[#ff3b30]' : ''}`}
               {...register('email', {
                 required: 'Email is required'
@@ -142,7 +142,7 @@ function Register() {
                 id="reg-password"
                 type={showPassword ? 'text' : 'password'}
                 autoComplete="new-password"
-                placeholder="Min. 6 characters"
+                placeholder="enter password"
                 className={`${inputClass} pr-10 ${errors.password ? 'border-[#ff3b30]' : ''}`}
                 {...register('password', {
                   required: 'Password is required',
