@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router'
+import { useState, useEffect } from 'react'
 import {
   LayoutDashboard,
   User,
@@ -9,8 +10,11 @@ import {
   LogOut,
   Feather,
   Loader2,
+  Plus,
+  Briefcase
 } from 'lucide-react'
 import { useAuth } from '../../store/authStore'
+import { useWorkspace } from '../../store/workspaceStore'
 
 const links = [
   { to: '/dashboard/dashboardhome', label: 'Home', icon: LayoutDashboard },
@@ -24,12 +28,32 @@ const links = [
 function Sidebar() {
   const navigate = useNavigate()
   const logout = useAuth((state) => state.logout)
-  const loading = useAuth((state) => state.loading)
+  const authLoading = useAuth((state) => state.loading)
   const currentUser = useAuth((state) => state.currentUser)
+
+  const workspaces = useWorkspace((state) => state.workspaces)
+  const fetchWorkspaces = useWorkspace((state) => state.fetchWorkspaces)
+  const createWorkspace = useWorkspace((state) => state.createWorkspace)
+  const loading = useWorkspace((state) => state.loading)
+
+  const [showNewInput, setShowNewInput] = useState(false)
+  const [newWsName, setNewWsName] = useState('')
+
+  useEffect(() => {
+    fetchWorkspaces()
+  }, [fetchWorkspaces])
 
   const handleLogout = async () => {
     await logout()
     navigate('/')
+  }
+
+  const handleCreateWorkspace = async (e) => {
+    e.preventDefault()
+    if (!newWsName.trim()) return
+    await createWorkspace({ name: newWsName, description: 'New workspace', icon: '📁' })
+    setNewWsName('')
+    setShowNewInput(false)
   }
 
   const navCls = ({ isActive }) =>
@@ -70,6 +94,42 @@ function Sidebar() {
             {label}
           </NavLink>
         ))}
+
+        {/* Workspaces Section */}
+        <div className="mt-6 mb-2 px-3 flex items-center justify-between text-xs font-semibold text-[#a1a1a6] tracking-wider uppercase">
+          <span>Workspaces</span>
+          <button 
+            onClick={() => setShowNewInput(!showNewInput)}
+            className="hover:text-[#1d1d1f] transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {showNewInput && (
+          <form onSubmit={handleCreateWorkspace} className="px-3 mb-2 flex flex-col gap-2">
+            <input
+              type="text"
+              autoFocus
+              value={newWsName}
+              onChange={(e) => setNewWsName(e.target.value)}
+              placeholder="Workspace name..."
+              className="w-full text-sm px-3 py-1.5 rounded-lg border border-[#dadce0] focus:outline-none focus:border-[#1a73e8]"
+              disabled={loading}
+            />
+            <div className="flex gap-2">
+              <button type="submit" disabled={loading} className="text-xs bg-[#1a73e8] text-white px-2 py-1 rounded hover:bg-[#1558b0] disabled:opacity-50">Save</button>
+              <button type="button" onClick={() => setShowNewInput(false)} className="text-xs text-[#5f6368] px-2 py-1 hover:bg-[#f1f3f4] rounded">Cancel</button>
+            </div>
+          </form>
+        )}
+
+        {workspaces.map((ws) => (
+          <NavLink key={ws._id} to={`/dashboard/workspace/${ws._id}`} className={navCls}>
+            <Briefcase className="w-4 h-4 shrink-0" />
+            <span className="truncate">{ws.name}</span>
+          </NavLink>
+        ))}
       </nav>
 
       {/* Logout */}
@@ -77,15 +137,15 @@ function Sidebar() {
         <button
           id="sidebar-logout-btn"
           onClick={handleLogout}
-          disabled={loading}
+          disabled={authLoading}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#ff3b30] hover:bg-[#ff3b30]/5 transition-colors duration-150 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? (
+          {authLoading ? (
             <Loader2 className="w-4 h-4 shrink-0 animate-spin" />
           ) : (
             <LogOut className="w-4 h-4 shrink-0" />
           )}
-          {loading ? 'Signing out…' : 'Sign out'}
+          {authLoading ? 'Signing out…' : 'Sign out'}
         </button>
       </div>
     </aside>

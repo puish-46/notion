@@ -95,12 +95,6 @@ function Login() {
               <label htmlFor="password" className="text-xs font-medium text-[#6e6e73]">
                 Password
               </label>
-              <NavLink
-                to="/login/forgot-password"
-                className={`${ghostBtn} text-[0.7rem]`}
-              >
-                Forgot password?
-              </NavLink>
             </div>
             <div className="relative">
               <input

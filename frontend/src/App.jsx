@@ -1,54 +1,54 @@
-import { createBrowserRouter, RouterProvider } from 'react-router'
-import { useEffect } from 'react'
-import { useAuth } from '../store/authStore'
-import RootLayout from './components/RootLayout'
-import Home from './components/Home'
-import Register from './components/Register'
-import Login from './components/Login'
-import ForgotPass from './components/ForgotPass'
-import DashBoard from './components/DashBoard'
-import Profile from './components/Profile'
-import Task from './components/Task'
-import Journal from './components/Journal'
-import Page from './components/Page'
-import Search from './components/Search'
-import HomeDashBoard from './components/HomeDashBoard'
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { useEffect } from "react";
+import { useAuth } from "../store/authStore";
+import RootLayout from "./components/RootLayout";
+import Home from "./components/Home";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import DashBoard from "./components/DashBoard";
+import Profile from "./components/Profile";
+import Task from "./components/Task";
+import Journal from "./components/Journal";
+import Page from "./components/Page";
+import Search from "./components/Search";
+import HomeDashBoard from "./components/HomeDashBoard";
+import ChangePassword from "./components/ChangePassword";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'register',          element: <Register /> },
-      { path: 'login',             element: <Login /> },
-      { path: 'login/forgot-password', element: <ForgotPass /> },
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
     ],
   },
   {
-    path: 'dashboard',
+    path: "dashboard",
     element: <DashBoard />,
     children: [
-      { index: true,                    element: <HomeDashBoard /> },
-      { path: 'profile',               element: <Profile /> },
-      { path: 'task',                  element: <Task /> },
-      { path: 'journal',               element: <Journal /> },
-      { path: 'page',                  element: <Page /> },
-      { path: 'search',               element: <Search /> },
-      { path: 'dashboardhome',        element: <HomeDashBoard /> },
+      { index: true, element: <HomeDashBoard /> },
+      { path: "profile", element: <Profile /> },
+      { path: "task", element: <Task /> },
+      { path: "journal", element: <Journal /> },
+      { path: "page", element: <Page /> },
+      { path: "search", element: <Search /> },
+      { path: "dashboardhome", element: <HomeDashBoard /> },
+      { path: "change-password", element: <ChangePassword /> },
     ],
   },
-])
+]);
 
 function App() {
-  const checkAuth = useAuth((state) => state.checkAuth)
+  const checkAuth = useAuth((state) => state.checkAuth);
 
   // Restore session on every full page load
   useEffect(() => {
-    checkAuth()
-  }, [checkAuth])
+    checkAuth();
+  }, [checkAuth]);
 
-  return <RouterProvider router={router} />
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

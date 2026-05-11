@@ -1,6 +1,6 @@
 import { Feather } from 'lucide-react'
 import { NavLink } from 'react-router'
-import { navLinkClass, linkClass } from '../styles/common'
+import { navLinkClass } from '../styles/common'
 
 function Footer() {
   return (
