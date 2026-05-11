@@ -30,3 +30,7 @@ GET http://localhost:6767/auth/logout
 
 ### Check auth status done
 GET http://localhost:6767/auth/check-auth
+###
+
+GET http://https://localhost:
+###
