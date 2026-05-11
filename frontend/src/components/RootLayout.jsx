@@ -2,9 +2,11 @@ import Header from './Header'
 import Footer from './Footer'
 import { Outlet } from 'react-router'
 
+import { pageBackground } from '../styles/common'
+
 function RootLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className={`${pageBackground} flex flex-col`}>
       <Header />
       <main className="flex-1">
         <Outlet />

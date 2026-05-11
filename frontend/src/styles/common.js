@@ -21,10 +21,10 @@ export const linkClass = "text-[#1a73e8] hover:text-[#1558b0] transition-colors"
 
 // ─── Buttons ──────────────────────────────────────────
 export const primaryBtn =
-  "bg-[#1a73e8] text-white font-medium px-5 py-2.5 rounded-full hover:bg-[#1558b0] transition-colors cursor-pointer text-sm tracking-tight inline-block text-center shadow-[0_1px_2px_rgba(60,64,67,0.18)]";
+  "bg-[#1a73e8] text-white font-medium px-5 py-2.5 rounded-full hover:bg-[#1558b0] transition-colors cursor-pointer text-sm tracking-tight inline-flex items-center justify-center gap-1.5 shadow-[0_1px_2px_rgba(60,64,67,0.18)] whitespace-nowrap";
 export const secondaryBtn =
-  "border border-[#dadce0] text-[#202124] font-medium px-5 py-2.5 rounded-full hover:bg-[#f1f3f4] transition-colors cursor-pointer text-sm inline-block text-center";
-export const ghostBtn = "text-[#1a73e8] font-medium hover:text-[#1558b0] transition-colors cursor-pointer text-sm";
+  "border border-[#dadce0] text-[#202124] font-medium px-5 py-2.5 rounded-full hover:bg-[#f1f3f4] transition-colors cursor-pointer text-sm inline-flex items-center justify-center gap-1.5 whitespace-nowrap";
+export const ghostBtn = "text-[#1a73e8] font-medium hover:text-[#1558b0] transition-colors cursor-pointer text-sm inline-flex items-center justify-center gap-1.5 whitespace-nowrap";
 
 // ─── Forms ────────────────────────────────────────────
 export const formCard = "bg-white rounded-[24px] p-4 sm:p-6 md:p-10 max-w-4xl mx-auto shadow-[0_1px_3px_rgba(60,64,67,0.16)] ring-1 ring-[#dadce0]";

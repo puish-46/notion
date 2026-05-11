@@ -37,7 +37,7 @@ function Header() {
       <div className={navContainerClass}>
         {/* Brand */}
         <NavLink to="/" className={`${navBrandClass} flex items-center gap-1.5`}>
-          <Feather className="w-4 h-4 text-[#0066cc]" strokeWidth={2.5} />
+          <Feather className="w-4 h-4 text-[#1a73e8]" strokeWidth={2.5} />
           Taskify
         </NavLink>
 
@@ -56,14 +56,14 @@ function Header() {
                 id="header-logout-btn"
                 onClick={handleLogout}
                 disabled={loading}
-                className={`${secondaryBtn} flex items-center gap-1.5`}
+                className={secondaryBtn}
               >
                 <LogOut className="w-3.5 h-3.5" />
                 {loading ? 'Signing out…' : 'Sign out'}
               </button>
               {/* User avatar pill */}
               <div className="flex items-center gap-2 text-[0.8rem] text-[#6e6e73]">
-                <span className="w-7 h-7 rounded-full bg-[#0066cc]/10 text-[#0066cc] flex items-center justify-center text-xs font-semibold">
+                <span className="w-7 h-7 rounded-full bg-[#1a73e8]/10 text-[#1a73e8] flex items-center justify-center text-xs font-semibold">
                   {currentUser?.firstName?.[0]?.toUpperCase() ?? '?'}
                 </span>
                 <span className="hidden lg:block font-medium text-[#1d1d1f]">

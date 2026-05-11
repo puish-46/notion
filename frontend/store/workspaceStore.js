@@ -97,6 +97,81 @@ export const useWorkspace = create((set, get) => ({
     }
   },
 
+  addMember: async (workspaceId, userId, role = "MEMBER") => {
+    set({ loading: true, error: null });
+    try {
+      const res = await axios.post(`/workspace/${workspaceId}/members`, { userId, role }, { withCredentials: true });
+      const updatedWorkspace = res.data.payload;
+      set((state) => ({
+        currentWorkspace: updatedWorkspace,
+        workspaces: state.workspaces.map((w) => (w._id === workspaceId ? updatedWorkspace : w)),
+        loading: false,
+      }));
+      return updatedWorkspace;
+    } catch (err) {
+      set({
+        error: err.response?.data?.message || "Failed to add member",
+        loading: false,
+      });
+      throw err;
+    }
+  },
+
+  updateMemberRole: async (workspaceId, userId, role) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await axios.put(`/workspace/${workspaceId}/members/${userId}`, { role }, { withCredentials: true });
+      const updatedWorkspace = res.data.payload;
+      set((state) => ({
+        currentWorkspace: updatedWorkspace,
+        workspaces: state.workspaces.map((w) => (w._id === workspaceId ? updatedWorkspace : w)),
+        loading: false,
+      }));
+      return updatedWorkspace;
+    } catch (err) {
+      set({
+        error: err.response?.data?.message || "Failed to update role",
+        loading: false,
+      });
+      throw err;
+    }
+  },
+
+  removeMember: async (workspaceId, userId) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await axios.delete(`/workspace/${workspaceId}/members/${userId}`, { withCredentials: true });
+      const updatedWorkspace = res.data.payload;
+      set((state) => ({
+        currentWorkspace: updatedWorkspace,
+        workspaces: state.workspaces.map((w) => (w._id === workspaceId ? updatedWorkspace : w)),
+        loading: false,
+      }));
+      return updatedWorkspace;
+    } catch (err) {
+      set({
+        error: err.response?.data?.message || "Failed to remove member",
+        loading: false,
+      });
+      throw err;
+    }
+  },
+
+  fetchWorkspaceActivity: async (workspaceId) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await axios.get(`/workspace/${workspaceId}/activity`, { withCredentials: true });
+      set({ loading: false });
+      return res.data.payload;
+    } catch (err) {
+      set({
+        error: err.response?.data?.message || "Failed to fetch activity",
+        loading: false,
+      });
+      throw err;
+    }
+  },
+
   setCurrentWorkspace: (workspace) => set({ currentWorkspace: workspace }),
   clearError: () => set({ error: null }),
 }));

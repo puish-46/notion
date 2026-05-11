@@ -10,8 +10,10 @@ import {
   emptyStateClass,
   errorClass,
 } from '../styles/common'
+import { useWorkspace } from '../../store/workspaceStore'
 
 function Search() {
+  const currentWorkspace = useWorkspace(state => state.currentWorkspace)
   const [query, setQuery] = useState('')
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -20,14 +22,32 @@ function Search() {
   const handleSearch = async (e) => {
     e.preventDefault()
     if (!query.trim()) return
+    
+    // Check for workspace
+    const workspaceId = currentWorkspace?._id
+    if (!workspaceId) {
+      setError('Please select a workspace to search.')
+      return
+    }
+
     setLoading(true)
     setError('')
     setResults(null)
     try {
-      const res = await axios.get(`/search?q=${encodeURIComponent(query.trim())}`, {
+      const res = await axios.get(`/search?q=${encodeURIComponent(query.trim())}&workspace=${workspaceId}`, {
         withCredentials: true,
       })
-      setResults(res.data.payload ?? res.data)
+      
+      const payload = res.data.payload || {}
+      
+      // Flatten the results
+      const allResults = [
+        ...(payload.pages || []).map(p => ({ ...p, type: 'Page' })),
+        ...(payload.boards || []).map(b => ({ ...b, type: 'Board' })),
+        ...(payload.cards || []).map(c => ({ ...c, type: 'Card' }))
+      ]
+      
+      setResults(allResults)
     } catch (err) {
       setError(err?.response?.data?.message || 'Search failed. Try again.')
     } finally {
@@ -37,7 +57,7 @@ function Search() {
 
   return (
     <div className="p-6 md:p-10 max-w-3xl mx-auto">
-      <h1 className={`${headingClass} mb-6`}>Search</h1>
+      <h1 className={`${headingClass} mb-6 flex`}>Search</h1>
 
       {/* Search bar */}
       <form onSubmit={handleSearch} className="flex items-center gap-3 mb-8">
@@ -47,7 +67,7 @@ function Search() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search pages, boards, tasks…"
+            placeholder="Search pages, boards, cards…"
             className={`${inputClass} pl-9`}
           />
         </div>
@@ -65,14 +85,14 @@ function Search() {
 
       {/* Results */}
       {results !== null && (
-        Array.isArray(results) && results.length === 0 ? (
+        results.length === 0 ? (
           <p className={emptyStateClass}>No results found for "{query}"</p>
         ) : (
           <div className="flex flex-col gap-3">
-            {(Array.isArray(results) ? results : []).map((item, i) => (
+            {results.map((item, i) => (
               <div key={item._id ?? i} className={`${cardClass} text-left`}>
                 <p className="text-xs text-[#1a73e8] font-semibold uppercase tracking-widest mb-1">
-                  {item.type ?? 'Result'}
+                  {item.type}
                 </p>
                 <h3 className="text-sm font-medium text-[#202124]">{item.title ?? item.name}</h3>
                 {item.description && (

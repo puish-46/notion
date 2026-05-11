@@ -12,18 +12,7 @@ function Footer() {
           <span className="text-sm font-semibold text-[#1d1d1f] tracking-tight">Taskify</span>
         </div>
 
-        {/* Links */}
-        <nav className="flex items-center gap-5">
-          <NavLink to="/" end className={navLinkClass}>
-            Home
-          </NavLink>
-          <NavLink to="/login" className={navLinkClass}>
-            Sign in
-          </NavLink>
-          <NavLink to="/register" className={navLinkClass}>
-            Register
-          </NavLink>
-        </nav>
+    
 
         {/* Copyright */}
         <p className="text-xs text-[#a1a1a6]">

@@ -36,6 +36,17 @@ export const useAuth = create((set) => ({
     }
   },
 
+  verifyPassword: async (password) => {
+    try {
+      const email = useAuth.getState().currentUser?.email;
+      if (!email) throw new Error("No user logged in");
+      await axios.post("/auth/login", { email, password }, { withCredentials: true });
+      return true;
+    } catch (err) {
+      throw err;
+    }
+  },
+
   logout: async () => {
     set({ loading: true, error: null });
     try {
@@ -121,6 +132,21 @@ export const useAuth = create((set) => ({
       set({
         loading: false,
         error: err.response?.data?.message || "Failed to delete account",
+      });
+      throw err;
+    }
+  },
+
+  searchUsers: async (email) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await axios.get(`/user/search?email=${encodeURIComponent(email)}`, { withCredentials: true });
+      set({ loading: false });
+      return res.data.payload;
+    } catch (err) {
+      set({
+        loading: false,
+        error: err.response?.data?.message || "Failed to search users",
       });
       throw err;
     }

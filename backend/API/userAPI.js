@@ -155,3 +155,19 @@ userAPP.delete("/me", verifyToken(), async(req,res,next)=>{
         res.status(200).json({message:"User deleted successfully"})
     } catch(err) { next(err) }
 })
+
+//search user by email
+userAPP.get("/search", verifyToken(), async(req,res,next)=>{
+    try {
+        const { email } = req.query
+        if(!email) return res.status(400).json({message:"Email query parameter is required"})
+        
+        // Use regex for case-insensitive partial match or exact match
+        const users = await userModel.find({ email: { $regex: new RegExp(email, 'i') } })
+            .select("_id firstName lastName email avatarUrl")
+            .limit(5)
+            
+        res.status(200).json({message:"Users found",payload:users})
+    } catch(err) { next(err) }
+})
+

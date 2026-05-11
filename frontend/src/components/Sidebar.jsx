@@ -18,11 +18,11 @@ import { useWorkspace } from '../../store/workspaceStore'
 
 const links = [
   { to: '/dashboard/dashboardhome', label: 'Home', icon: LayoutDashboard },
-  { to: '/dashboard/profile',       label: 'Profile',  icon: User },
-  { to: '/dashboard/search',        label: 'Search',   icon: Search },
-  { to: '/dashboard/page',          label: 'Pages',    icon: FileText },
-  { to: '/dashboard/task',          label: 'Tasks',    icon: CheckSquare },
-  { to: '/dashboard/journal',       label: 'Journal',  icon: BookOpen },
+  { to: '/dashboard/profile', label: 'Profile', icon: User },
+  { to: '/dashboard/search', label: 'Search', icon: Search },
+  { to: '/dashboard/page', label: 'Pages', icon: FileText },
+  { to: '/dashboard/task', label: 'Tasks', icon: CheckSquare },
+  { to: '/dashboard/journal', label: 'Journal', icon: BookOpen },
 ]
 
 function Sidebar() {
@@ -57,10 +57,9 @@ function Sidebar() {
   }
 
   const navCls = ({ isActive }) =>
-    `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors duration-150 ${
-      isActive
-        ? 'bg-[#0066cc]/10 text-[#0066cc] font-semibold'
-        : 'text-[#6e6e73] hover:bg-[#f5f5f7] hover:text-[#1d1d1f] font-normal'
+    `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors duration-150 ${isActive
+      ? 'bg-[#0066cc]/10 text-[#0066cc] font-semibold'
+      : 'text-[#6e6e73] hover:bg-[#f5f5f7] hover:text-[#1d1d1f] font-normal'
     }`
 
   return (
@@ -98,7 +97,7 @@ function Sidebar() {
         {/* Workspaces Section */}
         <div className="mt-6 mb-2 px-3 flex items-center justify-between text-xs font-semibold text-[#a1a1a6] tracking-wider uppercase">
           <span>Workspaces</span>
-          <button 
+          <button
             onClick={() => setShowNewInput(!showNewInput)}
             className="hover:text-[#1d1d1f] transition-colors"
           >

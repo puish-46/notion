@@ -12,6 +12,7 @@ import Journal from "./components/Journal";
 import Page from "./components/Page";
 import Search from "./components/Search";
 import HomeDashBoard from "./components/HomeDashBoard";
+import Workspace from "./components/Workspace";
 import ChangePassword from "./components/ChangePassword";
 
 const router = createBrowserRouter([
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomeDashBoard /> },
       { path: "profile", element: <Profile /> },
+      { path: "workspace/:id", element: <Workspace /> },
       { path: "task", element: <Task /> },
       { path: "journal", element: <Journal /> },
       { path: "page", element: <Page /> },

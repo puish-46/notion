@@ -55,13 +55,11 @@ function ChangePassword() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-52px)] flex items-center justify-center px-4 py-12 bg-[#f8f9fa]">
-      <div className={`${formCard} w-full max-w-sm`}>
-
-        {/* Back */}
+    <div className="flex-1 p-6 md:p-10 max-w-4xl mx-auto w-full">
+      <div className="mb-8">
         <button
           onClick={() => navigate(-1)}
-          className={`${secondaryBtn} flex items-center gap-1.5 mb-6 text-xs`}
+          className={`${secondaryBtn} flex items-center gap-1.5 mb-6 text-xs w-fit`}
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           Back
